@@ -1,0 +1,2 @@
+class UserRafflesController < ApplicationController
+end
