@@ -1,7 +1,36 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+
+puts 'destroying data'
+
+User.destroy_all
+User.reset_pk_sequence
+Raffle.destroy_all
+Raffle.reset_pk_sequence
+UserRaffle.destroy_all
+UserRaffle.reset_pk_sequence
+Win.destroy_all
+Win.reset_pk_sequence
+Product.destroy_all
+Product.reset_pk_sequence
+
+
+10.times do
+    User.create(username: Faker::Internet.username, email: Faker::Internet.email)
+end
+
+20.times do
+    Raffle.create(host_id: rand(1..10), remaining_funding: rand(0..100))
+end
+
+Raffle.all.each do |r|
+    Product.create(raffle_id: r.id, name: Faker::Internet.username, price: rand(20..100), img_url: "https://picsum.photos/200/300", details: "example review")
+end
+
+
+User.all.each do |u|
+    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20))
+    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20))
+    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20))
+end
+
+puts "done"

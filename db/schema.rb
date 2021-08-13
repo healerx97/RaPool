@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_10_205146) do
+ActiveRecord::Schema.define(version: 2021_08_12_013917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,14 +20,13 @@ ActiveRecord::Schema.define(version: 2021_08_10_205146) do
     t.money "price", scale: 2
     t.string "img_url"
     t.text "details"
+    t.integer "raffle_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "raffles", force: :cascade do |t|
-    t.integer "product_id"
     t.integer "host_id"
-    t.integer "winner_id"
     t.money "remaining_funding", scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -50,6 +49,17 @@ ActiveRecord::Schema.define(version: 2021_08_10_205146) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "wins", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "user_id"
+    t.bigint "raffle_id", null: false
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["raffle_id"], name: "index_wins_on_raffle_id"
+  end
+
   add_foreign_key "user_raffles", "raffles"
   add_foreign_key "user_raffles", "users"
+  add_foreign_key "wins", "raffles"
 end
