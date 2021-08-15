@@ -8,6 +8,9 @@ class Raffle < ApplicationRecord
         User.find_by(id: self.winner_id)
     end
 
+    def host_user
+        User.find_by(id: self.host_id)
+    end
     # def product
     #     Product.find_by(id: self.product_id)
     # end

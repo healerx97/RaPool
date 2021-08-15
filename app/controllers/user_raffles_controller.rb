@@ -1,8 +1,9 @@
 class UserRafflesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+    
     def create
         userRaffle = UserRaffle.create!(user_raffles_params)
-        render json: userRaffle
+        render json: userRaffle, status: :created
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422
     end

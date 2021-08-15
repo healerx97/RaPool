@@ -1,10 +1,15 @@
-function RaffleCard({raffle}) {
+function RaffleCard({raffle, setParticipationValue, setModalRaffle}) {
     // console.log(product)
-    // function handleCreate() {
-    //     console.log('click')
-    //     setModalProduct(product)
-    //     setFundingValue(product.price.current_price)
-    // }
+    function handleCreate() {
+        console.log('click')
+        setModalRaffle(raffle)
+        setParticipationValue(raffle.remaining_funding)
+    }
+    const renderParticipants = (
+        raffle.users.map((user) => {
+            return(<p className="card-text">{user.username}</p>)
+        })
+    )
     if (raffle.product) {
     return (
         <div className = "col">
@@ -13,10 +18,13 @@ function RaffleCard({raffle}) {
                 <div className="card-body">
                     <h5 className="card-title">{raffle.product.name}</h5>
                     <p className="card-text">Rating: {raffle.product.details}</p>
+                    <p>Participants:</p>
+                    {raffle.users?renderParticipants:(<p>None</p>)}
                 </div>
                 <div className="card-footer">
-                    <small className="text-muted">${raffle.product.price}</small>
-                    {/* <button className='btn-sm' onClick={handleCreate} data-bs-toggle="modal" data-bs-target="#product-raffle-view">Create Raffle</button> */}
+                    <small className="text-muted">Product Price: ${raffle.product.price}</small>
+                    <small className="text-muted">Remaining Funding: ${raffle.remaining_funding}</small>
+                    <button className='btn-sm' onClick={handleCreate} data-bs-toggle="modal" data-bs-target="#raffle-view">Participate</button>
                 </div>
             </div>
             
