@@ -20,7 +20,7 @@ function NavBar() {
                         Wins
                         </Nav.Link>
                         <Nav.Link className="link" as={Link} to="/login">
-                        Login Page
+                        Login
                         </Nav.Link>
                     </Nav>
                 </Container>

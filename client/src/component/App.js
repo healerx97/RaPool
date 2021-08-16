@@ -9,10 +9,17 @@ import NavBar from './NavBar';
 import Home from './Home';
 import Wins from './Wins';
 import Login from './Login';
+import Signup from './Signup'
 import BrowseProducts from './BrowseProducts';
 
 function App() {
   const [allRaffles, setAllRaffles] = useState([])
+  //login/signup
+  const [user, setUser] = useState(null)
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState([])
 
   //reusable functions
   async function createProduct(obj) {
@@ -35,6 +42,7 @@ function App() {
     
     getRaffles()
   },[])
+
   return (
     <div className="App">
       
@@ -47,7 +55,10 @@ function App() {
           <Wins/>
         </Route>
         <Route exact path = "/login">
-          <Login/>
+          <Login username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
+        </Route>
+        <Route exact path = "/signup">
+          <Signup username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
         </Route> 
         <Route exact path = "/">
           <Home allRaffles={allRaffles} getRaffles={getRaffles}/>
