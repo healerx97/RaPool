@@ -2,10 +2,9 @@ import { useState } from 'react'
 
 import RaffleCard from './RaffleCard'
 
-function Home({allRaffles}) {
+function Home({allRaffles, getRaffles}) {
     const [modalRaffle, setModalRaffle] = useState({})
     const [participationValue, setParticipationValue] = useState("")
-
     function handleParticipationValue(e) {
         setParticipationValue(e.target.value)
     }
@@ -24,10 +23,23 @@ function Home({allRaffles}) {
             },
             body: JSON.stringify(obj)
         })
+        
         const data = await res.json()
         if (res.ok) {
-            
             console.log(data)
+            const r = await fetch(`/rafflefunds/${modalRaffle.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({remaining_funding: modalRaffle.remaining_funding - participationValue})
+            })
+            const d = await r.json()
+            if (r.ok) {
+                console.log(d)
+                getRaffles()
+            }
+            
         }
     }
 

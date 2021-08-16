@@ -1,7 +1,8 @@
 class RafflesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
     def index
-        raffles = Raffle.all
+        raffles = Raffle.all.order(remaining_funding: :desc)
+        
         render json: raffles
     end
 
@@ -20,7 +21,7 @@ class RafflesController < ApplicationController
     def raffle_fund
         raffle = Raffle.find(params[:id])
         raffle.update!(remaining_funding: params[:remaining_funding])
-        render json: raffle, status: :updated
+        render json: raffle, status: :created
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422
     end

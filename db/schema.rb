@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2021_08_12_013917) do
   create_table "user_raffles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "raffle_id", null: false
+    t.money "bought_shares", scale: 2
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["raffle_id"], name: "index_user_raffles_on_raffle_id"

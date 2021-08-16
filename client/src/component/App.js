@@ -24,15 +24,15 @@ function App() {
     return res
   }
 
-
-  useEffect(()=> {
-    async function getRaffles() {
-      const res = await fetch('/raffles')
-      if (res.ok) {
-        const data = await res.json()
-        setAllRaffles(data)
-      }
+  async function getRaffles() {
+    const res = await fetch('/raffles')
+    if (res.ok) {
+      const data = await res.json()
+      setAllRaffles(data)
     }
+  }
+  useEffect(()=> {
+    
     getRaffles()
   },[])
   return (
@@ -50,7 +50,7 @@ function App() {
           <Login/>
         </Route> 
         <Route exact path = "/">
-          <Home allRaffles={allRaffles}/>
+          <Home allRaffles={allRaffles} getRaffles={getRaffles}/>
         </Route>
       </Switch>
     </div>

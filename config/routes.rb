@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   
+  mount ActionCable.server => "/cable"
   resources :wins
   resources :products
-  # resources :user_raffles
+  resources :user_raffles, only: [:index]
   resources :raffles
   resources :users
 
-  get 'participate', to: "user_raffles#create"
-  get '/rafflefunds', to: "raffles#raffle_fund"
+  post '/participate', to: "user_raffles#create"
+  patch '/rafflefunds/:id', to: "raffles#raffle_fund"
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end

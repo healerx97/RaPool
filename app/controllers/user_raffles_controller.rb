@@ -1,6 +1,10 @@
 class UserRafflesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-    
+    def index
+        userRaffles = UserRaffle.all
+
+        render json: userRaffles
+    end
     def create
         userRaffle = UserRaffle.create!(user_raffles_params)
         render json: userRaffle, status: :created
