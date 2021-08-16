@@ -2,8 +2,12 @@ import { Link, NavLink } from 'react-router-dom'
 import { Navbar, Container, Nav, NavItem } from "react-bootstrap"
 import { useHistory } from 'react-router-dom'
 
-function NavBar() {
-
+function NavBar({logOut, user}) {
+    function handleLogout(e) {
+        if (user) {
+            logOut()
+        }
+    }
     return (
         <header>
             <Navbar className="navbar"  variant="primary" sticky = "top" >
@@ -19,11 +23,16 @@ function NavBar() {
                         <Nav.Link className="link" as={Link} to="/wins">
                         Wins
                         </Nav.Link>
-                        <Nav.Link className="link" as={Link} to="/login">
-                        Login
+                        <Nav.Link className="link" as={Link} onClick = {handleLogout} to="/login">
+                        {user? "Logout": "Login"}
                         </Nav.Link>
                     </Nav>
                 </Container>
+                <div>
+                <h3 style={{'fontSize': 'medium'}}>
+                    {user ? `Welcome, ${user.username}` : null}
+                </h3>
+            </div>
             </Navbar>
         </header>
     )

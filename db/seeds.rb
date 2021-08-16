@@ -15,7 +15,7 @@ Product.reset_pk_sequence
 
 
 10.times do
-    User.create(username: Faker::Internet.username, email: Faker::Internet.email)
+    User.create(username: Faker::Internet.username, email: Faker::Internet.email, password: "asdf")
 end
 
 20.times do
@@ -25,12 +25,12 @@ end
 Raffle.all.each do |r|
     Product.create(raffle_id: r.id, name: Faker::Internet.username, price: rand(20..100), img_url: "https://picsum.photos/200/300", details: "example review")
 end
-
+puts "creating user data"
 
 User.all.each do |u|
-    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20))
-    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20))
-    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20))
+    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
+    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
+    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
 end
 
 puts "done"

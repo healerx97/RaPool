@@ -1,12 +1,15 @@
 import { Form, FloatingLabel, InputGroup, Button, FormControl } from 'react-bootstrap'
 import {useState} from 'react'
+import { useHistory } from 'react-router-dom'
 
 import ProductCard from './ProductCard'
-function BrowseProducts({createProduct}) {
+function BrowseProducts({createProduct, user, getRaffles}) {
     const [searchTerm, setSearchTerm] = useState("")
     const [searchResults, setSearchResults] = useState([])
     const [modalProduct, setModalProduct] = useState({})
     const [fundingValue, setFundingValue] = useState("")
+
+    let history = useHistory()
 
     function handleFundingValue(e) {
         setFundingValue(e.target.value)
@@ -40,7 +43,7 @@ function BrowseProducts({createProduct}) {
     async function handleCreateRaffle() {
         let obj = {
             //assuming user 1 is logged in
-            host_id: 1,
+            host_id: user.id,
             remaining_funding: modalProduct.price.current_price - fundingValue
 
         }
@@ -65,7 +68,9 @@ function BrowseProducts({createProduct}) {
                 if (res.ok) {
                 const data = await res.json()
                 console.log(data)
+                getRaffles()
                 alert("Raffle Posted!")
+                history.push('/')
                 }
               })()
             }

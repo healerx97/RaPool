@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import RaffleCard from './RaffleCard'
 
-function Home({allRaffles, getRaffles}) {
+function Home({allRaffles, getRaffles, user}) {
     const [modalRaffle, setModalRaffle] = useState({})
     const [participationValue, setParticipationValue] = useState("")
     function handleParticipationValue(e) {
@@ -12,7 +12,7 @@ function Home({allRaffles, getRaffles}) {
     async function handleParticipate() {
         let obj = {
             // logged in user id
-            user_id: 5,
+            user_id: user.id,
             raffle_id: modalRaffle.id,
             bought_shares: participationValue
         }
@@ -51,7 +51,7 @@ function Home({allRaffles, getRaffles}) {
     const renderParticipants = (
         (modalRaffle.users?
             modalRaffle.users.map((user) => {
-                return(`${user.username}\n`)
+                return(`${user.username}`)
             }) : null)
     )
     // console.log(allRaffles)

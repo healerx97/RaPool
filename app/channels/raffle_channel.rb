@@ -1,6 +1,6 @@
-class ChannelNameChannel < ApplicationCable::Channel
+class RaffleChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    puts 'subscribed'
   end
 
   def unsubscribed

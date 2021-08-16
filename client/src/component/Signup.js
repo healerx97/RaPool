@@ -5,8 +5,8 @@ function Signup({username, email, password, errors, setUsername, setEmail, setPa
 
     function handleClick() {
         setErrors([])
-        // setUsername("")
-        // setPassword("")
+        setUsername("")
+        setPassword("")
         history.push('/login')
     }
 

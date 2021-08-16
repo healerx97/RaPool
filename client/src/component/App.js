@@ -21,6 +21,29 @@ function App() {
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState([])
 
+  let history = useHistory()
+
+  async function logOut() {
+    const res = await fetch("/logout", {
+      method: "DELETE"
+    })
+    if (res.ok) {
+      setUser(null)
+      history.push("/login")
+    }
+  }
+  useEffect(() => {
+    async function getUser() {
+      const res = await fetch("/me")
+      if (res.ok) {
+        const json = await res.json()
+        setUser(json)
+        history.push("/")
+      }
+    }
+    getUser()
+  }, [])
+
   //reusable functions
   async function createProduct(obj) {
     const res = await fetch('/products', {
@@ -46,10 +69,10 @@ function App() {
   return (
     <div className="App">
       
-      <NavBar/>
+      <NavBar logOut={logOut} user={user}/>
       <Switch>
         <Route exact path = "/browse">
-          <BrowseProducts createProduct={createProduct}/>
+          <BrowseProducts createProduct={createProduct} user={user} getRaffles={getRaffles}/>
         </Route>
         <Route exact path = "/wins">
           <Wins/>
@@ -61,7 +84,7 @@ function App() {
           <Signup username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
         </Route> 
         <Route exact path = "/">
-          <Home allRaffles={allRaffles} getRaffles={getRaffles}/>
+          <Home allRaffles={allRaffles} getRaffles={getRaffles} user={user}/>
         </Route>
       </Switch>
     </div>

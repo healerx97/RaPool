@@ -17,7 +17,7 @@ class UsersController < ApplicationController
         render json: user, status: :created
     
     rescue ActiveRecord::RecordInvalid => e
-        render json: {error: e.record.errors.full_messages}, status: :unprocessable_entity    
+        render json: {errors: e.record.errors.full_messages}, status: :unprocessable_entity    
     end
 
     private
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.permit(:username, :email, :password_digest)
+        params.permit(:username, :email, :password)
     end
 
 
