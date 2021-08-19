@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 
+import cable from "./cable"
 import NavBar from './NavBar';
 import Home from './Home';
 import Wins from './Wins';
@@ -22,6 +23,96 @@ function App() {
   const [errors, setErrors] = useState([])
 
   let history = useHistory()
+
+  useEffect(()=>{
+    const params = {
+      channel: "AllChannel"
+    }
+    const handlers = {
+      received(data) {
+        console.log(data)
+        getRaffles()
+      },
+      connected() {
+        console.log("connected")
+      },
+      disconnected() {
+        console.log("disconnected")
+      },
+    }
+
+    const subscription = cable.subscriptions.create(params, handlers);
+
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  },[])
+
+  function timeLeft(time) {
+  // time = "2021-08-18T17:02:28.286Z"
+  let endTime = Date.parse(time)
+  let now = Date.now()
+  let dif = endTime - now
+
+  let dateObj = new Date(dif);
+  let hours = dateObj.getUTCHours();
+  let minutes = dateObj.getUTCMinutes();
+  let seconds = dateObj.getSeconds();
+
+  let timeString = hours.toString().padStart(2, '0') + ':' + 
+  minutes.toString().padStart(2, '0') + ':' + 
+  seconds.toString().padStart(2, '0');
+  return timeString
+  }
+
+  
+  useEffect(()=>{
+    async function addTime(id) {
+      const res = await fetch(`/initiatetime/${id}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        getRaffles()
+        }
+        if (allRaffles) {
+        allRaffles.forEach((raffle)=> {
+          if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
+            addTime(raffle.id)
+          }
+        }
+        )
+      }
+    }
+  ,[allRaffles])
+
+
+  useEffect(()=>{
+    const params = {
+      channel: "RaffleChannel",
+      id: user?user.id:null
+    }
+    const handlers = {
+      received(data) {
+        console.log(data)
+        getRaffles()
+      },
+      connected() {
+        console.log("connected")
+      },
+      disconnected() {
+        console.log("disconnected")
+      },
+    }
+
+    const subscription = cable.subscriptions.create(params, handlers);
+
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  },[user])
+
 
   async function logOut() {
     const res = await fetch("/logout", {
@@ -61,8 +152,9 @@ function App() {
       setAllRaffles(data)
     }
   }
+
+  //rerender all raffles at page reload
   useEffect(()=> {
-    
     getRaffles()
   },[])
 
@@ -84,7 +176,7 @@ function App() {
           <Signup username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
         </Route> 
         <Route exact path = "/">
-          <Home allRaffles={allRaffles} getRaffles={getRaffles} user={user}/>
+          <Home allRaffles={allRaffles} getRaffles={getRaffles} user={user} timeLeft={timeLeft}/>
         </Route>
       </Switch>
     </div>

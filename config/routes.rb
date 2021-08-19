@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
   mount ActionCable.server => "/cable"
+
   resources :wins
   resources :products
   resources :user_raffles, only: [:index]
@@ -15,5 +16,6 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
+  patch '/initiatetime/:id', to: "raffles#initiate_time"
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end

@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import RaffleCard from './RaffleCard'
 
-function Home({allRaffles, getRaffles, user}) {
+function Home({allRaffles, getRaffles, user, timeLeft}) {
     const [modalRaffle, setModalRaffle] = useState({})
     const [participationValue, setParticipationValue] = useState("")
     function handleParticipationValue(e) {
@@ -36,7 +36,7 @@ function Home({allRaffles, getRaffles, user}) {
             })
             const d = await r.json()
             if (r.ok) {
-                console.log(d)
+                // console.log(d)
                 getRaffles()
             }
             
@@ -45,7 +45,7 @@ function Home({allRaffles, getRaffles, user}) {
 
     const renderRaffles = (
             allRaffles.map(raffle => {
-                return (<RaffleCard raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue}/>)
+                return (<RaffleCard getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
             })
     )
     const renderParticipants = (

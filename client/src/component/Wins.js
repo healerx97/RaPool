@@ -1,9 +1,78 @@
+import { useState, useEffect } from 'react'
+import WinCard from './WinCard'
+function Wins({getRaffles, user}) {
+    const [modalWin, setModalWin] = useState({})
+    const [wonRaffles, setWonRaffles] = useState([])
+    async function getWonRaffles(){
+        const res = await fetch('/wins')
+        if (res.ok) {
+            const data = await res.json()
+            setWonRaffles(data)
+        }
+    }
+    useEffect(()=>{
+        getWonRaffles()
+    },[])
+    async function handleRedeem() {
 
-function Wins() {
+    }
 
+     const renderWonRaffles = (
+            wonRaffles.map(raffle => {
+                return (<WinCard raffle={raffle} setModalWin={setModalWin}/>)
+            })
+    )
+    const renderParticipants = (
+        (modalWin.users?
+            modalWin.users.map((user) => {
+                return(`${user.username}`)
+            }) : null)
+    )
     return (
         <div>
-            Wins
+            <div className="container">
+            <div className = "row row-cols-1 row-cols-md-3 g-4">
+                {wonRaffles?renderWonRaffles:null}
+            </div>
+            {/* raffle modal */}
+            <div className="modal fade" id="win-view" tabindex="-1" aria-labelledby="Modal" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-scrollable modal-xl">
+                        <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">{modalWin.product?modalWin.product.name:null}</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="container-fluid">
+                                <div className="row">
+                                    <div className='col-md-4'>
+                                    <img style={{'width': '25%'}} src={`${modalWin.product?modalWin.product.img_url:null}`} class="card-img-top" alt="..."/>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className='col-md-4 ms-auto'>
+                                        Participants:
+                                    </div>
+                                    <div className='col-md-4'>
+                                        {modalWin.users ?renderParticipants: "no participants"}
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className='col-md-3 ms-auto'>
+                                        ${modalWin.product ? modalWin.product.price: 0}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleRedeem}>Redeem</button>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
         </div>
     )
 }

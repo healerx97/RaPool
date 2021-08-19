@@ -57,7 +57,7 @@ function Signup({username, email, password, errors, setUsername, setEmail, setPa
                                 <div className="col-md-6 mb-4">
     
                                 <div className="form-outline">
-                                    <input required type="text" id="username" className="form-control form-control-lg" value={email} onChange={e => setEmail(e.target.value)}/>
+                                    <input required type="text" id="email" className="form-control form-control-lg" value={email} onChange={e => setEmail(e.target.value)}/>
                                     <label className="form-label" htmlFor="email">Email</label>
                                 </div>
     

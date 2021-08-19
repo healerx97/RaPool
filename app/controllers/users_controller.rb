@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+    skip_before_action :authorize, only: [:create]
     def index
         users = User.all
         render json: users

@@ -1,6 +1,7 @@
 class RaffleChannel < ApplicationCable::Channel
   def subscribed
-    puts 'subscribed'
+    host = User.find_by(id: params[:id])
+    stream_for host
   end
 
   def unsubscribed
