@@ -215,10 +215,10 @@ function App() {
       <NavBar logOut={logOut} user={user}/>
       <Switch>
         <Route exact path = "/browse">
-          <BrowseProducts createProduct={createProduct} user={user} getRaffles={getRaffles}/>
+          {user? <BrowseProducts createProduct={createProduct} user={user} getRaffles={getRaffles}/>: <Redirect to="/login" />}
         </Route>
         <Route exact path = "/wins">
-          <Wins/>
+        {user? <Wins/>: <Redirect to="/login"/>}
         </Route>
         <Route exact path = "/login">
           <Login username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
@@ -227,7 +227,7 @@ function App() {
           <Signup username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
         </Route> 
         <Route exact path = "/">
-          <Home allRaffles={allRaffles} getRaffles={getRaffles} user={user} timeLeft={timeLeft}/>
+        {user? <Home allRaffles={allRaffles} getRaffles={getRaffles} user={user} timeLeft={timeLeft}/>: <Redirect to="/login"/>}
         </Route>
       </Switch>
     </div>
