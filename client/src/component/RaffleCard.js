@@ -40,22 +40,48 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                 min: remainingTime.min,
                 sec: remainingTime.sec -1
             })
-
            
     }, 1000);
     return () => clearInterval(interval);}
     }, []);
+
+    async function addWin() {
+        const res = await fetch(`/wins/${raffle.id}`)
+        if (res.ok) {
+            const data = await res.json()
+            const r = await fetch(`broadcastwin/${data.id}`)
+            getRaffles()
+        } else {
+            getRaffles()
+        }
+    }
+
     if (!raffle.win) {
     if ((Date.parse(raffle.end_time) - Date.now()) < 0 ) {
-        fetch(`/wins/${raffle.id}`)
-        .then(res=> res.json())
-        .then((data) => {
-            fetch(`broadcastwin/${data.id}`)
-            console.log(data)
-            getRaffles()
-        })
+    addWin() 
     }
 }
+
+    async function addTime(id) {
+      const res = await fetch(`/initiatetime/${id}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        // getRaffles()
+        }
+
+
+        if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
+            addTime(raffle.id)
+            console.log('save me')
+        }
+  
+ 
+  
+
+
 
     // console.log(remainingTime.sec)
     if (raffle.product) {

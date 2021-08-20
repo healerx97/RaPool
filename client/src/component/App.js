@@ -25,20 +25,44 @@ function App() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState([])
-
   let history = useHistory()
 
-  //action cable 
+  useEffect(() => {
+    async function getUser() {
+      const res = await fetch("/me")
+      if (res.ok) {
+        const json = await res.json()
+        setUser(json)
+        history.push("/")
+      }
+    }
+    getUser()
+  }, [])
+
+  //action cable
+  const [constate, setConstate] = useState(true)
   useEffect(()=>{
-    const params = {
+    if (user) {
+    const raffle_params = {
       channel: "RaffleChannel",
       id: user?user.id:null
     }
-    const handlers = {
+    const win_params = {
+      channel: "WinsChannel",
+      id: user?user.id:null
+    }
+    const all_params = {
+      channel: "AllChannel"
+    }
+    const update_params = {
+      channel: "UpdateChannel"
+    }
+    const raffle_handlers = {
       received(data) {
-        const notifyPost = () => toast.success(`Raffle Initiated: ${data.product?data.product.name:null}`, {position: toast.POSITION.BOTTOM_RIGHT});
+        const notifyPost = () => toast.success(`Raffle Initiated: ${data.body.product?data.body.product.name:null}`, {position: toast.POSITION.BOTTOM_RIGHT});
         notifyPost()
         getRaffles()
+        console.log('recieved raffle signal')
       },
       connected() {
         console.log("connected")
@@ -47,25 +71,12 @@ function App() {
         console.log("disconnected")
       },
     }
-
-    const subscription = cable.subscriptions.create(params, handlers)
-  
-
-    return function cleanup() {
-      subscription.unsubscribe()
-    }
-  },[user])
-
-  useEffect(()=>{
-    const params = {
-      channel: "WinsChannel",
-      id: user?user.id:null
-    }
-    const handlers = {
+    const win_handlers = {
       received(data) {
         const notifyPost = () => toast.success(`Winner for ${data.raffle?data.raffle.product.name:null} is ${data.winner?data.winner.username:null}!`, {position: toast.POSITION.BOTTOM_RIGHT});
         notifyPost()
         getRaffles()
+        console.log('recieved win signal')
       },
       connected() {
         console.log("connected")
@@ -74,19 +85,7 @@ function App() {
         console.log("disconnected")
       },
     }
-
-    const subscription = cable.subscriptions.create(params, handlers);
-
-    return function cleanup() {
-      subscription.unsubscribe()
-    }
-  },[user])
-
-  useEffect(()=>{
-    const params = {
-      channel: "AllChannel"
-    }
-    const handlers = {
+    const all_handlers = {
       received(data) {
         const notifyPost = () => toast.success(`New Raffle Posted: ${data.body.product.name}`, {position: toast.POSITION.BOTTOM_RIGHT});
         // notifyPost()
@@ -99,21 +98,10 @@ function App() {
         console.log("disconnected")
       },
     }
-
-    const subscription = cable.subscriptions.create(params, handlers);
-
-    return function cleanup() {
-      subscription.unsubscribe()
-    }
-  },[user])
-
-  useEffect(()=>{
-    const params = {
-      channel: "UpdateChannel"
-    }
-    const handlers = {
+    const update_handlers = {
       received(data) {
         getRaffles()
+        console.log("updated")
       },
       connected() {
         console.log("connected")
@@ -122,13 +110,23 @@ function App() {
         console.log("disconnected")
       },
     }
-
-    const subscription = cable.subscriptions.create(params, handlers);
-
+    const raffle_subscription = cable.subscriptions.create(raffle_params, raffle_handlers)
+    const win_subscription = cable.subscriptions.create(win_params, win_handlers)
+    const all_subscription = cable.subscriptions.create(all_params, all_handlers)
+    const update_subscription = cable.subscriptions.create(update_params, update_handlers)
+    // console.log(subscription)
     return function cleanup() {
-      subscription.unsubscribe()
+      raffle_subscription.unsubscribe()
+      win_subscription.unsubscribe()
+      all_subscription.unsubscribe()
+      update_subscription.unsubscribe()
+      console.log("cleaned up")
+    }
     }
   },[user])
+
+
+
 
   // TIME LEFT for Raffle Countdown
   function timeLeft(time) {
@@ -148,27 +146,31 @@ function App() {
   return timeString
   }
 
-  useEffect(()=>{
-    async function addTime(id) {
-      const res = await fetch(`/initiatetime/${id}`, {
-        method: "PATCH",
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-        getRaffles()
-        }
-        if (allRaffles) {
-        allRaffles.forEach((raffle)=> {
-          if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
-            addTime(raffle.id)
-          }
+  // useEffect(()=>{
+  //   async function addTime(id) {
+  //     const res = await fetch(`/initiatetime/${id}`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       }
+  //     })
+  //       // getRaffles()
+  //       }
 
-        }
-        )
-      }
-    }
-  ,[allRaffles])
+  //         if (allRaffles) {
+  //         allRaffles.forEach((raffle)=> {
+  //           if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
+  //             addTime(raffle.id)
+  //             console.log('save me')
+  //           }
+  
+  //         }
+  //         )
+  //       }
+
+
+  //   }
+  // ,[allRaffles])
 
   
 
@@ -182,17 +184,7 @@ function App() {
       history.push("/login")
     }
   }
-  useEffect(() => {
-    async function getUser() {
-      const res = await fetch("/me")
-      if (res.ok) {
-        const json = await res.json()
-        setUser(json)
-        history.push("/")
-      }
-    }
-    getUser()
-  }, [])
+  
 
   //reusable functions
   async function createProduct(obj) {
@@ -215,7 +207,7 @@ function App() {
   //rerender all raffles at page reload
   useEffect(()=> {
     getRaffles()
-  },[])
+  },[user])
 
   return (
     <div className="App">

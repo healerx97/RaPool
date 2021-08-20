@@ -6,12 +6,12 @@ Win.destroy_all
 Win.reset_pk_sequence
 Product.destroy_all
 Product.reset_pk_sequence
+UserRaffle.destroy_all
+UserRaffle.reset_pk_sequence
 User.destroy_all
 User.reset_pk_sequence
 Raffle.destroy_all
 Raffle.reset_pk_sequence
-UserRaffle.destroy_all
-UserRaffle.reset_pk_sequence
 
 
 10.times do

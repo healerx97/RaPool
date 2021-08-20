@@ -34,11 +34,13 @@ class RafflesController < ApplicationController
     def initiate_time
         raffle = Raffle.find(params[:id])
         time = Time.current + 10.seconds
-        raffle.update!(end_time: time)
-        users = raffle.users
-        users.each {|user|
-        RaffleChannel.broadcast_to(user, RaffleSerializer.new(raffle))
+            raffle.update!(end_time: time)
+        
+        raffle.users.each {|user|
+        RaffleChannel.broadcast_to(user, {body: RaffleSerializer.new(raffle)})
         }
+
+        ActionCable.server.broadcast("updates", { body: "updated raffles"})
         render json: raffle
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422

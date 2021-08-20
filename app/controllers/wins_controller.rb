@@ -21,12 +21,12 @@ class WinsController < ApplicationController
             count += c
             cum_ary << count
         }
-        cum = cum_ary.find {|i| i> winner_num}
+        cum = cum_ary.find {|i| i >= winner_num}
         cum_id = cum_ary.find_index(cum)
         winner_id = raffles[cum_id].user_id
         winner = Win.create!(user_id: winner_id, raffle_id: raffles[cum_id].raffle_id)
         # byebug
-        render json: winner
+        render json: winner, status: :created
         
     end
 
