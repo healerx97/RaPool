@@ -1,18 +1,25 @@
 import { useState } from 'react'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import RaffleCard from './RaffleCard'
 
+toast.configure()
+
 function Home({allRaffles, getRaffles, user, timeLeft}) {
+
     const [modalRaffle, setModalRaffle] = useState({})
     const [participationValue, setParticipationValue] = useState("")
+    const [noLoginError, setNoLoginError] = useState(null)
     function handleParticipationValue(e) {
         setParticipationValue(e.target.value)
     }
+    const notifyError = () => toast.error("You must be logged in!", {position: toast.POSITION.TOP_CENTER});
 
     async function handleParticipate() {
         let obj = {
             // logged in user id
-            user_id: user.id,
+            user_id: user?user.id:null,
             raffle_id: modalRaffle.id,
             bought_shares: participationValue
         }
@@ -26,7 +33,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
         
         const data = await res.json()
         if (res.ok) {
-            console.log(data)
+            // console.log(data)
             const r = await fetch(`/rafflefunds/${modalRaffle.id}`, {
                 method: "PATCH",
                 headers: {
@@ -40,12 +47,15 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                 getRaffles()
             }
             
+        } else {
+            notifyError()
         }
     }
 
     const renderRaffles = (
             allRaffles.map(raffle => {
-                return (<RaffleCard getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
+                
+                return (<RaffleCard key={raffle.id} getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
             })
     )
     const renderParticipants = (
@@ -101,6 +111,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleParticipate}>Participate</button>
+                            
                         </div>
                         </div>
                     </div>

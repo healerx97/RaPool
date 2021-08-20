@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
+  get '/broadcastwin/:id', to: 'wins#broadcast_win'
   patch '/initiatetime/:id', to: "raffles#initiate_time"
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end

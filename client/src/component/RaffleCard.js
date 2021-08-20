@@ -19,6 +19,7 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
         })
     )
     useEffect(() => {
+        
         if (remainingTime) {
     const interval = setInterval(() => {
         if (remainingTime.min < 0) {
@@ -39,14 +40,23 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                 min: remainingTime.min,
                 sec: remainingTime.sec -1
             })
-        
+
+           
     }, 1000);
     return () => clearInterval(interval);}
     }, []);
+    if (!raffle.win) {
     if ((Date.parse(raffle.end_time) - Date.now()) < 0 ) {
-            fetch(`/wins/${raffle.id}`)
-            .then(res=> res.json())
-        }
+        fetch(`/wins/${raffle.id}`)
+        .then(res=> res.json())
+        .then((data) => {
+            fetch(`broadcastwin/${data.id}`)
+            console.log(data)
+            getRaffles()
+        })
+    }
+}
+
     // console.log(remainingTime.sec)
     if (raffle.product) {
     return (

@@ -12,6 +12,8 @@ class ProductsController < ApplicationController
 
     def create
         product = Product.create!(product_params)
+        raffled = product.raffle
+        ActionCable.server.broadcast("allRaffles", { body: RaffleSerializer.new(raffled)})
         render json: product, status: :created
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422

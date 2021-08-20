@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import cable from "./cable"
 import NavBar from './NavBar';
@@ -12,6 +14,8 @@ import Wins from './Wins';
 import Login from './Login';
 import Signup from './Signup'
 import BrowseProducts from './BrowseProducts';
+
+toast.configure()
 
 function App() {
   const [allRaffles, setAllRaffles] = useState([])
@@ -24,13 +28,43 @@ function App() {
 
   let history = useHistory()
 
+  //action cable 
   useEffect(()=>{
     const params = {
-      channel: "AllChannel"
+      channel: "RaffleChannel",
+      id: user?user.id:null
     }
     const handlers = {
       received(data) {
-        console.log(data)
+        const notifyPost = () => toast.success(`Raffle Initiated: ${data.product?data.product.name:null}`, {position: toast.POSITION.BOTTOM_RIGHT});
+        notifyPost()
+        getRaffles()
+      },
+      connected() {
+        console.log("connected")
+      },
+      disconnected() {
+        console.log("disconnected")
+      },
+    }
+
+    const subscription = cable.subscriptions.create(params, handlers)
+  
+
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  },[user])
+
+  useEffect(()=>{
+    const params = {
+      channel: "WinsChannel",
+      id: user?user.id:null
+    }
+    const handlers = {
+      received(data) {
+        const notifyPost = () => toast.success(`Winner for ${data.raffle?data.raffle.product.name:null} is ${data.winner?data.winner.username:null}!`, {position: toast.POSITION.BOTTOM_RIGHT});
+        notifyPost()
         getRaffles()
       },
       connected() {
@@ -46,8 +80,57 @@ function App() {
     return function cleanup() {
       subscription.unsubscribe()
     }
-  },[])
+  },[user])
 
+  useEffect(()=>{
+    const params = {
+      channel: "AllChannel"
+    }
+    const handlers = {
+      received(data) {
+        const notifyPost = () => toast.success(`New Raffle Posted: ${data.body.product.name}`, {position: toast.POSITION.BOTTOM_RIGHT});
+        // notifyPost()
+        getRaffles()
+      },
+      connected() {
+        console.log("connected")
+      },
+      disconnected() {
+        console.log("disconnected")
+      },
+    }
+
+    const subscription = cable.subscriptions.create(params, handlers);
+
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  },[user])
+
+  useEffect(()=>{
+    const params = {
+      channel: "UpdateChannel"
+    }
+    const handlers = {
+      received(data) {
+        getRaffles()
+      },
+      connected() {
+        console.log("connected")
+      },
+      disconnected() {
+        console.log("disconnected")
+      },
+    }
+
+    const subscription = cable.subscriptions.create(params, handlers);
+
+    return function cleanup() {
+      subscription.unsubscribe()
+    }
+  },[user])
+
+  // TIME LEFT for Raffle Countdown
   function timeLeft(time) {
   // time = "2021-08-18T17:02:28.286Z"
   let endTime = Date.parse(time)
@@ -65,7 +148,6 @@ function App() {
   return timeString
   }
 
-  
   useEffect(()=>{
     async function addTime(id) {
       const res = await fetch(`/initiatetime/${id}`, {
@@ -81,37 +163,14 @@ function App() {
           if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
             addTime(raffle.id)
           }
+
         }
         )
       }
     }
   ,[allRaffles])
 
-
-  useEffect(()=>{
-    const params = {
-      channel: "RaffleChannel",
-      id: user?user.id:null
-    }
-    const handlers = {
-      received(data) {
-        console.log(data)
-        getRaffles()
-      },
-      connected() {
-        console.log("connected")
-      },
-      disconnected() {
-        console.log("disconnected")
-      },
-    }
-
-    const subscription = cable.subscriptions.create(params, handlers);
-
-    return function cleanup() {
-      subscription.unsubscribe()
-    }
-  },[user])
+  
 
 
   async function logOut() {

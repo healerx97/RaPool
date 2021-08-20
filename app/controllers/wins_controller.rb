@@ -15,16 +15,28 @@ class WinsController < ApplicationController
             raffle.bought_shares }
         a = total.sum {|b| b}
         winner_num = rand(0..a)
-        cum = 0
-        algo = raffles.each { |raffle|
-        cum += raffle.bought_shares
-        if cum > winner_num
-            winner = Win.create(user_id: raffle.user_id, raffle_id: raffle.raffle_id)
-            ActionCable.server.broadcast("allRaffles", WinSerializer.new(winner))
-            return render json: winner
-        end
-    }
+        count = 0
+        cum_ary = []
+        total.each {|c|
+            count += c
+            cum_ary << count
+        }
+        cum = cum_ary.find {|i| i> winner_num}
+        cum_id = cum_ary.find_index(cum)
+        winner_id = raffles[cum_id].user_id
+        winner = Win.create!(user_id: winner_id, raffle_id: raffles[cum_id].raffle_id)
+        # byebug
+        render json: winner
         
+    end
+
+    def broadcast_win
+        win = Win.find(params[:id])
+        r = Raffle.find(win.raffle_id)
+            userss = r.users
+            userss.each {|user|
+                WinsChannel.broadcast_to(user, {winner: UserSerializer.new(User.find(win.user_id)), raffle: RaffleSerializer.new(r)})
+            }
     end
     private
 

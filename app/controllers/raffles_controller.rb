@@ -1,5 +1,6 @@
 class RafflesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+    skip_before_action :authorize, only: [:index]
     def index
         raffles = Raffle.order(:end_time, remaining_funding: :desc)
         result = raffles.select {|raffle|
@@ -15,7 +16,7 @@ class RafflesController < ApplicationController
 
     def create
         raffle = Raffle.create!(raffle_params)
-        ActionCable.server.broadcast("allRaffles", { body: "updated raffles"})
+        # ActionCable.server.broadcast("allRaffles", { body: RaffleSerializer.new(raffle)})
         render json: raffle, status: :created
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422
@@ -23,10 +24,8 @@ class RafflesController < ApplicationController
 
     def raffle_fund
         raffle = Raffle.find(params[:id])
-        host = raffle.host
         raffle.update!(remaining_funding: params[:remaining_funding])
-        # RaffleChannel.broadcast_to(host, RaffleSerializer.new(raffle))
-        ActionCable.server.broadcast("allRaffles", { body: "updated raffles"})
+        ActionCable.server.broadcast("updates", { body: "updated raffles"})
         render json: raffle, status: :created
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422
@@ -36,6 +35,10 @@ class RafflesController < ApplicationController
         raffle = Raffle.find(params[:id])
         time = Time.current + 10.seconds
         raffle.update!(end_time: time)
+        users = raffle.users
+        users.each {|user|
+        RaffleChannel.broadcast_to(user, RaffleSerializer.new(raffle))
+        }
         render json: raffle
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422
