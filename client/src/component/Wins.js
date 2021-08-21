@@ -1,20 +1,34 @@
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import { useState, useEffect } from 'react'
 import WinCard from './WinCard'
+import RedeemedCard from './RedeemedCard'
+toast.configure()
+
 function Wins({getRaffles, user}) {
     const [modalWin, setModalWin] = useState({})
     const [wonRaffles, setWonRaffles] = useState([])
+    const [redeemedRaffles, setRedeemedRaffles] = useState([])
     async function getWonRaffles(){
         const res = await fetch('/wins')
         if (res.ok) {
             const data = await res.json()
-            setWonRaffles(data)
+            setRedeemedRaffles(data.filter(raffle=> raffle.win.status == "Redeemed"))
+            setWonRaffles(data.filter(raffle=> raffle.win.status == "Not Redeemed"))
         }
     }
     useEffect(()=>{
         getWonRaffles()
     },[])
     async function handleRedeem() {
-
+        const res = await fetch(`/redeem/${modalWin.id}`)
+        if (res.ok) {
+            const data = await res.json()
+            const notifyPost = () => toast.success(`Product "${data.product.name}" Redeemed!`, {position: toast.POSITION.BOTTOM_RIGHT});
+            notifyPost()
+            getWonRaffles()
+        }
     }
 
      const renderWonRaffles = (
@@ -22,6 +36,11 @@ function Wins({getRaffles, user}) {
                 return (<WinCard raffle={raffle} setModalWin={setModalWin}/>)
             })
     )
+    const renderRedeemedRaffles = (
+        redeemedRaffles.map(raffle => {
+            return (<RedeemedCard raffle={raffle} setModalWin={setModalWin}/>)
+        })
+)
     const renderParticipants = (
         (modalWin.users?
             modalWin.users.map((user) => {
@@ -31,6 +50,12 @@ function Wins({getRaffles, user}) {
     return (
         <div>
             <div className="container">
+                <h2>Redeemed Raffles</h2>
+            <div className = "row row-cols-1 row-cols-md-3 g-4">
+                {redeemedRaffles?renderRedeemedRaffles:null}
+            </div>
+            <br></br>
+                <h2>Raffles Ready to be Redeemed</h2>
             <div className = "row row-cols-1 row-cols-md-3 g-4">
                 {wonRaffles?renderWonRaffles:null}
             </div>

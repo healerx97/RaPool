@@ -24,7 +24,7 @@ class WinsController < ApplicationController
         cum = cum_ary.find {|i| i >= winner_num}
         cum_id = cum_ary.find_index(cum)
         winner_id = raffles[cum_id].user_id
-        winner = Win.create!(user_id: winner_id, raffle_id: raffles[cum_id].raffle_id)
+        winner = Win.create!(user_id: winner_id, raffle_id: raffles[cum_id].raffle_id, status: "Not Redeemed")
         # byebug
         render json: winner, status: :created
         
@@ -38,6 +38,17 @@ class WinsController < ApplicationController
                 WinsChannel.broadcast_to(user, {winner: UserSerializer.new(User.find(win.user_id)), raffle: RaffleSerializer.new(r)})
             }
     end
+
+    def redeem_win
+        raffle = Raffle.find_by(id: params[:id])
+        winn = raffle.win
+        winn.update!(status: "Redeemed")
+
+        render json: raffle, status: :created
+    rescue ActiveRecord::RecordInvalid => e
+        render json: { error: e.record.errors.full_messages }, status: 422
+    end
+
     private
 
     def render_not_found

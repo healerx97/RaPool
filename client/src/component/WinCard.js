@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 
 function WinCard({raffle, setModalWin}) {
     
-    function handleCreate() {
+    function handleOpen() {
         console.log('click')
         setModalWin(raffle)
     }
@@ -26,7 +26,7 @@ function WinCard({raffle, setModalWin}) {
                 <div className="card-footer">
                     <small className="text-muted">Product Price: ${raffle.product.price}</small>
                     <small className="text-muted">Remaining Funding: ${raffle.remaining_funding}</small>
-                    <button className='btn-sm' onClick={handleCreate} data-bs-toggle="modal" data-bs-target="#win-view">Participate</button>
+                    <button className='btn-sm' onClick={handleOpen} data-bs-toggle="modal" data-bs-target="#win-view">Redeem</button>
                 </div>
             </div>
             

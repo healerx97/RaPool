@@ -57,6 +57,19 @@ function BrowseProducts({createProduct, user, getRaffles}) {
         const raffle_data = await r.json()
 
         if (r.ok) {
+            let partObj = {
+                user_id: user?user.id:null,
+                raffle_id: raffle_data.id,
+                bought_shares: fundingValue
+            }
+            const asdf = await fetch('/participate', {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(partObj)
+            })
+            if (asdf.ok) {
             (async () => {
                 const res = await createProduct({
                     raffle_id: raffle_data.id,
@@ -74,10 +87,7 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                 }
               })()
             }
-
-        
-        
-        
+        }
     }
     return (
         <div className="container">

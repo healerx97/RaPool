@@ -146,31 +146,31 @@ function App() {
   return timeString
   }
 
-  // useEffect(()=>{
-  //   async function addTime(id) {
-  //     const res = await fetch(`/initiatetime/${id}`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       }
-  //     })
-  //       // getRaffles()
-  //       }
+  useEffect(()=>{
+    async function addTime(id) {
+      const res = await fetch(`/initiatetime/${id}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        // getRaffles()
+        }
 
-  //         if (allRaffles) {
-  //         allRaffles.forEach((raffle)=> {
-  //           if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
-  //             addTime(raffle.id)
-  //             console.log('save me')
-  //           }
+          if (allRaffles) {
+          allRaffles.forEach((raffle)=> {
+            if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
+              addTime(raffle.id)
+              console.log('save me')
+            }
   
-  //         }
-  //         )
-  //       }
+          }
+          )
+        }
 
 
-  //   }
-  // ,[allRaffles])
+    }
+  ,[allRaffles])
 
   
 

@@ -18,5 +18,7 @@ Rails.application.routes.draw do
 
   get '/broadcastwin/:id', to: 'wins#broadcast_win'
   patch '/initiatetime/:id', to: "raffles#initiate_time"
+  get '/redeem/:id', to: "wins#redeem_win"
+
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
