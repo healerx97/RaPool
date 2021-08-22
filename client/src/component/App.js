@@ -88,7 +88,7 @@ function App() {
     const all_handlers = {
       received(data) {
         const notifyPost = () => toast.success(`New Raffle Posted: ${data.body.product.name}`, {position: toast.POSITION.BOTTOM_RIGHT});
-        // notifyPost()
+        notifyPost()
         getRaffles()
       },
       connected() {

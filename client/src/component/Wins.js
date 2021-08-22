@@ -50,12 +50,12 @@ function Wins({getRaffles, user}) {
     return (
         <div>
             <div className="container">
-                <h2>Redeemed Raffles</h2>
+                <h4>Redeemed Raffles</h4>
             <div className = "row row-cols-1 row-cols-md-3 g-4">
                 {redeemedRaffles?renderRedeemedRaffles:null}
             </div>
             <br></br>
-                <h2>Raffles Ready to be Redeemed</h2>
+                <h4>Raffles Ready to be Redeemed</h4>
             <div className = "row row-cols-1 row-cols-md-3 g-4">
                 {wonRaffles?renderWonRaffles:null}
             </div>
