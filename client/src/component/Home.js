@@ -75,14 +75,13 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                     <div className="modal-dialog modal-dialog-scrollable modal-xl">
                         <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">{modalRaffle.product?modalRaffle.product.name:null}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <div className="container-fluid">
+                            {/* <div className="container-fluid">
                                 <div className="row">
                                     <div className='col-md-4'>
-                                    <img style={{'width': '25%'}} src={`${modalRaffle.product?modalRaffle.product.img_url:null}`} class="card-img-top" alt="..."/>
+                                    <img style={{'width': '70%'}} src={`${modalRaffle.product?modalRaffle.product.img_url:null}`} class="card-img-top" alt="..."/>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -106,11 +105,42 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                                     </div>
                                     </div>
                                 </div>
+                            </div> */}
+                            <div className="card">
+                                <div class="cardio">
+                                    <div class="path">HOME / FACE <a>/ CLEANSERS</a> </div>
+                                    <div class="row">
+                                        <div class="col-md-6 text-center align-self-center"> <img class="img-fluid" src={`${modalRaffle.product?modalRaffle.product.img_url:null}`} style={{'maxHeight': '300px'}}/> </div>
+                                        <div class="col-md-6 info">
+                                            <div class="row title">
+                                                <div class="col">
+                                                    <h2>{modalRaffle.product?modalRaffle.product.name:null}</h2>
+                                                </div>
+                                                <div class="col text-right"><a href="#"><i class="fa fa-heart-o"></i></a></div>
+                                            </div>
+                                            <p>Natural herbal wash</p> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span> <span class="fa fa-star-half-full"></span> <span id="reviews">1590 Reviews</span>
+                                            <div class="row price">
+                                                <span>Price</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row lower">
+                                        <div className="col"></div>
+                                        <div className="col"></div>
+                                        <div className="col align-self-center">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">$</span>
+                                            <input onChange={handleParticipationValue} value = {participationValue} type="text" class="form-control" aria-label="Funding Amount"/>
+                                        </div>
+                                        </div>
+                                        <div class="col text-right align-self-center"> <button className="btn" style={{'fontFamily': 'Nunito', 'textAlign': 'right'}}>Add to cart</button> </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleParticipate}>Participate</button>
+                            <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={handleParticipate}>Participate</button>
                             
                         </div>
                         </div>

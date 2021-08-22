@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
 
 .App {
   text-align: center;
@@ -13,7 +15,9 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+body {
+  --bs-body-bg: rgb(236, 234, 231);
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -45,7 +49,7 @@
 }
 
 .card {
-  background-color: #fff;
+  background-color: rgb(243, 241, 240);
   border-radius: 5px;
   border: none;
   position: fixed;
@@ -53,7 +57,7 @@
   box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
 }
 .l-bg-cherry {
-  background: linear-gradient(to right, #d3c7ce, rgb(197, 231, 236)) !important;
+  background: linear-gradient(to right, #e6e2e4, rgb(255, 255, 255)) !important;
   color: #fff;
 }
 
@@ -88,7 +92,7 @@
 }
 
 .l-bg-cyan {
-  background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+  background: linear-gradient(135deg, #d4d5d6, #ffffff) !important;
   color: #fff;
 }
 
@@ -102,10 +106,6 @@
   color: #fff;
 }
 
-.l-bg-cyan {
-  background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
-  color: #fff;
-}
 
 
 .card-blog {
@@ -211,11 +211,11 @@
 }
 
 .table {
-  margin-bottom: 0px;
+  margin-bottom: 0rem;
 }
 
 .card .table {
-  padding: 15px 30px;
+  padding: 10px 10px;
 }
 
 .card .table-primary {
@@ -274,4 +274,209 @@
 .card [class*="table-"] h2 small,
 .card [class*="table-"] h3 small {
   color: rgba(255, 255, 255, 0.8);
+}
+
+
+.card .cardio {
+  min-height: 50vh;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(186, 216, 125);
+  font-size: 1rem;
+  font-family: 'Work Sans';
+  text-align: left;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+  border-radius: 6px;
+  color: rgba(0, 0, 0, 0.87);
+  background: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.card .cardio {
+  max-width: 1000px;
+  width: 100%!important;
+  padding: 4rem!important;
+  background-color: rgb(243, 241, 234);
+  color: rgb(0, 0, 0);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)!important;
+}
+
+@media(max-width:768px) {
+  .card {
+      width: 100%;
+      padding: 1.5rem
+  }
+}
+
+/* .row {
+  margin: 0
+} */
+
+.path {
+  color: grey;
+  margin-bottom: 1rem
+}
+
+.path a {
+  color: #ffffff
+}
+
+.info {
+  padding: 6vh 0vh
+}
+
+@media(max-width:768px) {
+  .info {
+      padding: 0
+  }
+}
+
+.checked {
+  color: rgb(255, 217, 0);
+  margin-right: 1vh
+}
+
+.fa-star-half-full {
+  color: rgb(255, 217, 0)
+}
+
+.img-fluid {
+  height: fit-content;
+  width: 75%;
+  padding: 1rem
+}
+
+@media(max-width:768px) {
+  img {
+      padding: 2.5rem 0!important;
+  }
+}
+
+.title .col {
+  padding: 0
+}
+
+.fa-heart-o {
+  font-size: 2rem;
+  color: #ffffffaf;
+  font-weight: lighter
+}
+
+#reviews {
+  margin-left: 3vh;
+  color: grey
+}
+
+.price {
+  margin-top: 2rem
+}
+
+label.radio span {
+  padding: 1vh 4vh;
+  background-color: rgb(184, 184, 184);
+  color: rgb(63, 63, 63);
+  display: inline-block;
+  margin-right: 2vh
+}
+
+label.radio input:checked+span {
+  border: 1px solid white;
+  padding: 1vh 4vh;
+  background-color: rgb(210, 211, 143);
+  margin-right: 2vh;
+  color: #000000;
+  display: inline-block
+}
+
+.carousel-control-prev {
+  width: unset
+}
+
+.carousel-control-next {
+  left: 8vh;
+  right: unset;
+  width: unset
+}
+
+.lower {
+  margin-top: 3rem
+}
+
+.lower i {
+  padding: 2.5vh;
+  margin-right: 1vh;
+  color: grey;
+  border: 1px solid rgb(85, 85, 85)
+}
+
+.lower .col {
+  padding: 0
+}
+
+@media(max-width:768px) {
+  .lower i {
+      padding: 2vh;
+      margin-right: 1vh;
+      color: grey;
+      border: 1px solid rgb(85, 85, 85)
+  }
+}
+
+.btn {
+  background-color: transparent;
+  border-color: rgba(186, 216, 125, 0.863);
+  color: rgba(0, 0, 0, 0.863);
+  padding: 1.8vh 4.5vh;
+  height: fit-content;
+  border-radius: 3px
+}
+
+.btn:focus {
+  box-shadow: none;
+  outline: none;
+  box-shadow: none;
+  color: white;
+  -webkit-box-shadow: none;
+  -webkit-user-select: none;
+  transition: none
+}
+
+.btn:hover {
+  color: rgb(0, 0, 0)
+}
+
+@media(max-width:768px) {
+  .btn {
+      background-color: transparent;
+      border-color: rgba(186, 216, 125, 0.863);
+      color: rgba(37, 37, 37, 0.863);
+      padding: 1vh;
+      font-size: 0.9rem;
+      height: fit-content;
+      border-radius: 3px
+  }
+}
+
+a {
+  color: unset
+}
+
+a:hover {
+  color: unset;
+  text-decoration: none
+}
+
+label.radio input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none
+}
+
+label.radio {
+  cursor: pointer
 }
