@@ -1,20 +1,22 @@
 import { Form, FloatingLabel, InputGroup, Button, FormControl } from 'react-bootstrap'
 import {useState} from 'react'
 import { useHistory } from 'react-router-dom'
-
+import { Rating,RatingView } from 'react-simple-star-rating'
 import ProductCard from './ProductCard'
 function BrowseProducts({createProduct, user, getRaffles}) {
     const [searchTerm, setSearchTerm] = useState("")
     const [searchResults, setSearchResults] = useState([])
     const [modalProduct, setModalProduct] = useState({})
     const [fundingValue, setFundingValue] = useState("")
-
+    const [selectValue, setSelectValue] = useState("all")
     let history = useHistory()
 
     function handleFundingValue(e) {
         setFundingValue(e.target.value)
     }
-
+    function handleSelect(e) {
+        setSelectValue(e.target.value)
+    }
 
 
     async function handleSearch(e) {
@@ -79,7 +81,8 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                     name: modalProduct.title,
                     price: modalProduct.price.current_price,
                     img_url: modalProduct.thumbnail,
-                    details: `${modalProduct.reviews.rating}`
+                    details: `${modalProduct.reviews.rating}`,
+                    category: selectValue
                 })
                 if (res.ok) {
                 const data = await res.json()
@@ -116,6 +119,82 @@ function BrowseProducts({createProduct, user, getRaffles}) {
             <div className="modal fade" id="product-raffle-view" tabindex="-1" aria-labelledby="Modal" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-scrollable modal-xl">
                         <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body" style={{'font-family': 'Nunito'}}>
+                            
+                            <div className="card">
+                                <div class="cardio">
+                                    <div class="path"> </div>
+                                    <div class="row">
+                                        <div class="col-md-6 text-center align-self-center"> <img class="img-fluid" src={`${modalProduct?modalProduct.thumbnail:null}`} style={{'maxHeight': '300px'}}/> </div>
+                                        <div class="col-md-6 info">
+                                            <div class="row title" style={{'font-family': 'Nunito', 'font-size': '100px'}}>
+                                                <div class="col">
+                                                    <h3 style={{'font-family': 'Nunito', 'font-size': '20%'}}>{modalProduct?modalProduct.title:null}</h3>
+                                                </div>
+                                            </div>                                
+                                            <RatingView ratingValue={modalProduct.reviews?modalProduct.reviews.rating:null}/> {` [${modalProduct.reviews?modalProduct.reviews.rating:null}]`}                                        
+                                            <div class="row price">
+                                                <span>${modalProduct.price?modalProduct.price.current_price:null}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row lower">
+                                        <div className="col"></div>
+                                        <div className="col"></div>
+                                        <div className="col align-self-center">
+                                            <div className="form-group row">
+                                                <div className="col align-self-center">
+                                                <label for="categorySelect">Product Category</label>
+                                                </div>
+                                                <div className="col">
+                                                <select class="form-select" aria-label="category" id="categorySelect"onChange = {handleSelect} value={selectValue}>
+                                                    <option value ="all">All</option>
+                                                    <option value="Home">Home</option>
+                                                    <option value="Electronics">Electronics</option>
+                                                    <option value="Outdoor">Outdoor</option>
+                                                    <option value="Clothing">Clothing</option>
+                                                    <option value="Office Supplies">Office Supplies</option>
+                                                    <option value="Baby">Baby</option>
+                                                    <option value="Pets">Pets</option>
+                                                    <option value="Just For Fun">Just For Fun</option>
+                                                    <option value="Misc">Misc</option>
+                                                </select>                                                
+                                                </div>
+
+                                            </div>
+                                        <div className="row">
+                                            <div className="col">
+                                                <label for="initialFunding">Initial Funding:</label>
+                                            </div>
+                                            <div class="input-group mb-3 col">
+                                                <span class="input-group-text">$</span>
+                                                <input id="initialFunding" onChange={handleFundingValue} value = {fundingValue} type="text" class="form-control" aria-label="Funding Amount" style={{'marginRight':'5%'}}/>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col"/>
+                                            <div class="col align-self-center"> <button type="button" className="btn btn-light" style={{'fontFamily': 'Nunito'}}>Post</button> </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer" style={{'font-family': 'Nunito'}}>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={handleCreateRaffle}>Create Raffle</button>
+                            
+                        </div>
+                        </div>
+                    </div>
+            </div>
+
+            {/* <div className="modal fade" id="product-raffle-view" tabindex="-1" aria-labelledby="Modal" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-scrollable modal-xl">
+                        <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel">{modalProduct.title}</h5>
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -148,7 +227,7 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                             </div>
                         </div>
                     </div>
-            </div>
+            </div> */}
         </div>
     )
 }

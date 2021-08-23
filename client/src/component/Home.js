@@ -78,34 +78,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            {/* <div className="container-fluid">
-                                <div className="row">
-                                    <div className='col-md-4'>
-                                    <img style={{'width': '70%'}} src={`${modalRaffle.product?modalRaffle.product.img_url:null}`} class="card-img-top" alt="..."/>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className='col-md-4 ms-auto'>
-                                        Participants:
-                                    </div>
-                                    <div className='col-md-4'>
-                                        {modalRaffle.users ?renderParticipants: "no participants"}
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className='col-md-3 ms-auto'>
-                                        ${modalRaffle.product ? modalRaffle.product.price: 0}
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className='col-md-3 ms-auto'>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">$</span>
-                                        <input onChange={handleParticipationValue} value = {participationValue} type="text" class="form-control" aria-label="Funding Amount"/>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div> */}
+                            
                             <div className="card">
                                 <div class="cardio">
                                     <div class="path">HOME / FACE <a>/ CLEANSERS</a> </div>

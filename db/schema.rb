@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2021_08_12_013917) do
     t.string "img_url"
     t.text "details"
     t.integer "raffle_id"
+    t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
