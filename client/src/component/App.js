@@ -210,7 +210,7 @@ function App() {
   },[user])
 
   return (
-    <div className="App">
+    <div className="App content-container">
       
       <NavBar logOut={logOut} user={user}/>
       <Switch>

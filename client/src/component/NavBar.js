@@ -9,7 +9,36 @@ function NavBar({logOut, user}) {
         }
     }
     return (
-        <header>
+        <div class="sidebar-container" style={{'font-family': "Nunito"}}>
+            <div class="sidebar-logo">
+                RaPool
+            </div>
+            <ul class="sidebar-navigation">
+                <li class="header">Main</li>
+                <li>
+                <Link to="/">
+                    <i class="fa fa-list" aria-hidden="true"></i> Raffles
+                </Link>
+                </li>
+                <li>
+                <Link to="/browse">
+                    <i class="fa fa-search" aria-hidden="true"></i>Browse Products
+                </Link>
+                </li>
+                <li class="header">{`Account ${user?user.username:null}`} </li>
+                <li>
+                <Link to="/wins">
+                    <i class="fa fa-trophy" aria-hidden="true"></i> Wins
+                </Link>
+                </li>
+                <li>
+                <Link to="/login" onClick = {handleLogout}>
+                    <i class="fa fa-cog" aria-hidden="true"></i> {user? "Logout": "Login"}
+                </Link>
+                </li>
+            </ul>
+        
+        {/* <header>
             <Navbar className="navbar"  variant="primary" sticky = "top" >
                 <Container className="container-fluid" id="navbar">
                 <Navbar.Brand> RaPool </Navbar.Brand>
@@ -34,7 +63,10 @@ function NavBar({logOut, user}) {
                 </h3>
             </div>
             </Navbar>
-        </header>
+        </header> */}
+
+
+        </div>
     )
 }
 

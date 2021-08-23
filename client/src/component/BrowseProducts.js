@@ -117,15 +117,15 @@ function BrowseProducts({createProduct, user, getRaffles}) {
             </div>
 
             <div className="modal fade" id="product-raffle-view" tabindex="-1" aria-labelledby="Modal" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-scrollable modal-xl">
-                        <div className="modal-content">
-                        <div className="modal-header">
+                    <div className="modal-dialog modal-dialog-scrollable modal-xl" >
+                        <div className="modal-content" style={{'background-color': 'rgb(243, 241, 234)'}}>
+                        <div className="modal-header" style={{'background-color': 'rgb(243, 241, 234)'}}>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body" style={{'font-family': 'Nunito'}}>
                             
-                            <div className="card">
-                                <div class="cardio">
+                            <div className="card" style={{'background-color': 'rgb(243, 241, 234)'}}>
+                                <div class="cardio card">
                                     <div class="path"> </div>
                                     <div class="row">
                                         <div class="col-md-6 text-center align-self-center"> <img class="img-fluid" src={`${modalProduct?modalProduct.thumbnail:null}`} style={{'maxHeight': '300px'}}/> </div>
@@ -152,15 +152,15 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                                                 <div className="col">
                                                 <select class="form-select" aria-label="category" id="categorySelect"onChange = {handleSelect} value={selectValue}>
                                                     <option value ="all">All</option>
-                                                    <option value="Home">Home</option>
-                                                    <option value="Electronics">Electronics</option>
-                                                    <option value="Outdoor">Outdoor</option>
-                                                    <option value="Clothing">Clothing</option>
-                                                    <option value="Office Supplies">Office Supplies</option>
-                                                    <option value="Baby">Baby</option>
-                                                    <option value="Pets">Pets</option>
-                                                    <option value="Just For Fun">Just For Fun</option>
-                                                    <option value="Misc">Misc</option>
+                                                    <option value="home">Home</option>
+                                                    <option value="electronics">Electronics</option>
+                                                    <option value="outdoor">Outdoor</option>
+                                                    <option value="clothing">Clothing</option>
+                                                    <option value="officeSupplies">Office Supplies</option>
+                                                    <option value="baby">Baby</option>
+                                                    <option value="pets">Pets</option>
+                                                    <option value="justForFun">Just For Fun</option>
+                                                    <option value="misc">Misc</option>
                                                 </select>                                                
                                                 </div>
 
@@ -176,17 +176,12 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                                         </div>
                                         <div className="row">
                                             <div className="col"/>
-                                            <div class="col align-self-center"> <button type="button" className="btn btn-light" style={{'fontFamily': 'Nunito'}}>Post</button> </div>
+                                            <div class="col align-self-center"> <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={handleCreateRaffle} style={{'fontFamily': 'Nunito'}}>Post</button> </div>
                                         </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="modal-footer" style={{'font-family': 'Nunito'}}>
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={handleCreateRaffle}>Create Raffle</button>
-                            
                         </div>
                         </div>
                     </div>

@@ -11,6 +11,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
     const [modalRaffle, setModalRaffle] = useState({})
     const [participationValue, setParticipationValue] = useState("")
     const [noLoginError, setNoLoginError] = useState(null)
+    const [selectedCategory, setSelectedCategory] = useState('all')
     function handleParticipationValue(e) {
         setParticipationValue(e.target.value)
     }
@@ -51,10 +52,20 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
             notifyError()
         }
     }
+    function handleCategory(e) {
+        e.preventDefault()
+        setSelectedCategory(e.target.id)
+    }
+    console.log(selectedCategory)
 
-    const renderRaffles = (
-            allRaffles.map(raffle => {
-                
+    let filteredRaffles = (selectedCategory==='all')?(allRaffles.filter(raffle=> {
+        return (
+            raffle.product.category == selectedCategory
+        )
+    })):allRaffles
+
+    const renderRaffles = (        
+            filteredRaffles.map(raffle => {                
                 return (<RaffleCard key={raffle.id} getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
             })
     )
@@ -66,6 +77,71 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
     )
     // console.log(allRaffles)
     return (
+    <div>
+        <div class="container mt-4">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-9">
+                    <div class="card p-4 mt-3" style={{'font-family': 'nunito', 'background-color': 'rgb(243, 241, 234)'}}>
+                        <h3 class="heading mt-5 text-center">Active Raffles</h3>
+                        <div class="d-flex justify-content-center px-5">
+                            <div class="search"> <input type="text" class="search-input" placeholder="Search..." name=""/> <a href="#" class="search-icon"> <i class="fa fa-search"></i> </a> </div>
+                        </div>
+                        <div class="row mt-4 g-1 px-4 mb-3">
+                            <div class="col-md-2">
+                                <div id="all" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-trophy" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">All</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="home" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-home" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Home</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="electronics" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-laptop" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Electronics</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="outdoor" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-sun" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Outdoor</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="clothing" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-shopping-bag" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Clothing</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="officeSupplies" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-book" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Office Supplies</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="baby" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-child" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Baby</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="pets" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-paw" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Pets</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="justForFun" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-hand-peace" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Just For Fun</span> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="misc" class="card-inner p-3 d-flex flex-column align-items-center" onClick={handleCategory}> <i className="fa fa-question" aria-hidden="true" width="10"/>
+                                    <div class="text-center mg-text"> <span class="mg-text">Misc</span> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div className="container">
             <div className = "row row-cols-1 row-cols-md-3 g-4">
                 {allRaffles?renderRaffles:null}
@@ -120,6 +196,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                     </div>
             </div>
         </div>
+    </div>
     )
 }
 

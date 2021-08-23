@@ -92,11 +92,10 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                         <div className = "ripple-cont"></div>
                     </div>
                     <div className="table">
-                        <h6 className="category" style={{'font-family':'Nunito'}}>{raffle.product.name}</h6>
+                        <h6 className="category" style={{'font-family':'Nunito', 'font-size': '120%'}}>{raffle.product.name}</h6>
                         <h2 className="text-muted" style={{'font-family':'Nunito'}}>${raffle.product.price}</h2>
                         <RatingView ratingValue={raffle.product.details}/>
                     </div>
-
                     <div className="card-body" style={{'marginBottom': "-10%", "marginTop": "-10%"}}>
                         <div class="card l-bg-cherry">
                             <div class="card-statistic-3 p-2">
