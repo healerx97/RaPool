@@ -2,6 +2,8 @@ import { Form, FloatingLabel, InputGroup, Button, FormControl } from 'react-boot
 import {useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import { Rating,RatingView } from 'react-simple-star-rating'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import ProductCard from './ProductCard'
 function BrowseProducts({createProduct, user, getRaffles}) {
     const [searchTerm, setSearchTerm] = useState("")
@@ -9,12 +11,14 @@ function BrowseProducts({createProduct, user, getRaffles}) {
     const [modalProduct, setModalProduct] = useState({})
     const [fundingValue, setFundingValue] = useState("")
     const [selectValue, setSelectValue] = useState("all")
+    const [errors, setErrors] = useState(null)
     let history = useHistory()
 
     function handleFundingValue(e) {
         setFundingValue(e.target.value)
     }
     function handleSelect(e) {
+        e.preventDefault()
         setSelectValue(e.target.value)
     }
 
@@ -90,6 +94,13 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                 getRaffles()
                 alert("Raffle Posted!")
                 history.push('/')
+                } else {
+                    const data = await res.json()             
+                    const notifyError = () => toast.error(data.error.category[0], {position: toast.POSITION.TOP_CENTER});
+                    notifyError()
+                    const raffleReset = await fetch(`/raffles/${raffle_data.id}`, {
+                        method: 'DELETE'
+                    })
                 }
               })()
             }
@@ -151,7 +162,7 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                                                 </div>
                                                 <div className="col">
                                                 <select class="form-select" aria-label="category" id="categorySelect"onChange = {handleSelect} value={selectValue}>
-                                                    <option value ="all">All</option>
+                                                    <option value ="undef">Select product category..</option>
                                                     <option value="home">Home</option>
                                                     <option value="electronics">Electronics</option>
                                                     <option value="outdoor">Outdoor</option>

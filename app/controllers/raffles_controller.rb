@@ -45,6 +45,13 @@ class RafflesController < ApplicationController
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422
     end
+
+    def destroy
+        raffle = Raffle.find(params[:id])
+        raffle.destroy
+        head :no_content
+    end
+
     private
 
     def render_not_found
