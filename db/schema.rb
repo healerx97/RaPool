@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2021_08_12_013917) do
   create_table "raffles", force: :cascade do |t|
     t.integer "host_id"
     t.money "remaining_funding", scale: 2
+    t.text "purpose"
     t.datetime "end_time"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

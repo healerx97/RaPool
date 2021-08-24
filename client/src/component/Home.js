@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
+import {RatingView} from 'react-simple-star-rating'
 import RaffleCard from './RaffleCard'
 
 toast.configure()
@@ -19,11 +19,6 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
         setParticipationValue(e.target.value)
     }
     const notifyError = () => toast.error("You must be logged in!", {position: toast.POSITION.TOP_CENTER});
-
-    function handleChange(e) {
-        e.preventDefault()
-        
-    }
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -119,6 +114,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
     //     } else {
     //     let dfilteredRaffles = filteredRaffles}
     // },[filteredRaffles])
+
     const renderParticipants = (
         (modalRaffle.users?
             modalRaffle.users.map((user) => {
@@ -126,14 +122,14 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
             }) : null)
     )
     
-
+    
     return (
     <div>
         <div className="container mt-4">
             <div className="row d-flex justify-content-center">
                 <div className="col-md-9">
                     <div className="card p-4 mt-3" style={{'font-family': 'nunito', 'background-color': 'rgb(243, 241, 234)'}}>
-                        <h3 className="heading mt-5 text-center">Active Raffles</h3>
+                        <h3 className="heading mt-5 text-center">{selectedCategory !== 'all'?selectedCategory.toUpperCase():"ALL Active Raffles"}</h3>
                         <div className="d-flex justify-content-center px-5">
                             <div className="search"> <form onSubmit={handleSubmit}><input type="text" className="search-input" placeholder="Search active raffles..." name=""/> <button className="search-icon"> <i className="fa fa-search"></i> </button> </form></div>
                         </div>
@@ -207,20 +203,19 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                         <div className="modal-body">
                             
                             <div className="card">
-                                <div className="cardio">
-                                    <div className="path">HOME / FACE <a>/ CLEANSERS</a> </div>
+                                <div className="cardio" style={{'font-family':'Nunito', 'width': '100%!important'}}>
+                                    <div className="path">{modalRaffle.product?modalRaffle.product.category.toUpperCase():null}</div>
                                     <div className="row">
                                         <div className="col-md-6 text-center align-self-center"> <img className="img-fluid" src={`${modalRaffle.product?modalRaffle.product.img_url:null}`} style={{'maxHeight': '300px'}}/> </div>
                                         <div className="col-md-6 info">
                                             <div className="row title">
-                                                <div className="col">
-                                                    <h2>{modalRaffle.product?modalRaffle.product.name:null}</h2>
+                                                <div className="col align-self-center col font-weight-bold" style={{"font-size": "150%", 'font-weight': '600', 'marginBottom':'3%'}}>
+                                                    <div>{modalRaffle.product?modalRaffle.product.name:null}</div>
                                                 </div>
-                                                <div className="col text-right"><a href="#"><i className="fa fa-heart-o"></i></a></div>
                                             </div>
-                                            <p>Natural herbal wash</p> <span className="fa fa-star checked"></span> <span className="fa fa-star checked"></span> <span className="fa fa-star checked"></span> <span className="fa fa-star checked"></span> <span className="fa fa-star-half-full"></span> <span id="reviews">1590 Reviews</span>
-                                            <div className="row price">
-                                                <span>Price</span>
+                                            <p>{modalRaffle.purpose}</p> <RatingView ratingValue={modalRaffle.product?modalRaffle.product.details:null}/> {` [${modalRaffle.product?modalRaffle.product.details:null}]`}
+                                            <div className="row price" style={{'marginTop': '3%'}}>
+                                                <span>${modalRaffle.product?modalRaffle.product.price:null}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -228,20 +223,21 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                                         <div className="col"></div>
                                         <div className="col"></div>
                                         <div className="col align-self-center">
-                                        <div className="input-group mb-3">
-                                            <span className="input-group-text">$</span>
-                                            <input onChange={handleParticipationValue} value = {participationValue} type="text" className="form-control" aria-label="Funding Amount"/>
+                                            <div className="input-group mb-3" style={{'marginTop':'7%'}}>
+                                                <span className="input-group-text">$</span>
+                                                <input onChange={handleParticipationValue} value = {participationValue} type="text" className="form-control" aria-label="Funding Amount"/>
+                                            </div>
                                         </div>
-                                        </div>
-                                        <div className="col text-right align-self-center"> <button className="btn" style={{'fontFamily': 'Nunito', 'textAlign': 'right'}}>Add to cart</button> </div>
+                                        <div className="col align-self-center" style={{'marginLeft': '1%'}}> <button data-bs-dismiss="modal" onClick={handleParticipate} className="btn btn-light" style={{'fontFamily': 'Nunito', 'textAlign': 'right'}}>Contribute</button> </div>
+                                    </div>
+                                    <div className="row lowest">
+                                        <div className="col"></div>
+                                        <div className="col"></div>
+                                        <div className="col">{`$${modalRaffle?modalRaffle.remaining_funding:null} left to initiate.`}</div>
+                                        <div className="col"></div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={handleParticipate}>Participate</button>
-                            
                         </div>
                         </div>
                     </div>

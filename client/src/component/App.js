@@ -161,7 +161,6 @@ function App() {
           allRaffles.forEach((raffle)=> {
             if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
               addTime(raffle.id)
-              console.log('save me')
             }
   
           }

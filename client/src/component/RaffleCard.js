@@ -104,17 +104,18 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                                     <h5 class="card-title mb-0" style={{'font-family':'Nunito'}}>Product Funding</h5>
                                 </div>
                                 <div class="row align-items-center mb-2 d-flex">
-                                    <div class="col-8">
-                                        <h2 class="d-flex align-items-center mb-0" style={{'font-family':'Nunito', 'font-size': '80%'}}>
-                                            ${raffle.product.price - raffle.remaining_funding}
-                                        </h2>
+                                    <div class="col-8" style={{'font-family':'Nunito', 'font-size': '80%'}}>
+                                        <span class="d-flex align-items-center mb-0">
+                                            ${parseInt(raffle.product.price - raffle.remaining_funding)}
+                                        </span>
                                     </div>
                                     <div class="col-4 text-right" style={{'font-family':'Nunito',  'font-size': '80%'}}>
-                                        <span>{parseInt(percentage)}% <i class="fa fa-arrow-up"></i></span>
-                                    </div>                    
+                                        <span>${raffle.product.price}</span>
+                                    </div>
+                                                        
                                 </div>
-                                <div class="progress mt-1 " data-height="8" style={{"height": "8px", "marginBottom": "10px"}}>
-                                    <div class="progress-bar l-bg-green" role="progressbar" data-width="25%" aria-valuemin="0" aria-valuemax="100" style={{"width": `${percentage}%`}}></div>
+                                <div class="progress mt-1 " data-height="8" style={{"height": "12px", "marginBottom": "10px"}}>
+                                    <div class="progress-bar l-bg-green" role="progressbar" data-width="25%" aria-valuemin="0" aria-valuemax="100" style={{'color':'black', "width": `${percentage}%`}}>{parseInt(percentage)}%</div>
                                 </div>
                                 <div class="row align-items-center mb-2 d-flex">
                                     <div class="col-8">

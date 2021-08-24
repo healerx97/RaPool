@@ -19,7 +19,7 @@ Raffle.reset_pk_sequence
 end
 
 20.times do
-    Raffle.create(host_id: rand(1..10), remaining_funding: rand(0..100))
+    Raffle.create(host_id: rand(1..10), remaining_funding: rand(0..100), purpose: "yolo")
 end
 
 Raffle.all.each do |r|

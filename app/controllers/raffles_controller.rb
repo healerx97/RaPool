@@ -59,7 +59,7 @@ class RafflesController < ApplicationController
     end
 
     def raffle_params
-        params.permit(:host_id, :remaining_funding)
+        params.permit(:host_id, :remaining_funding, :purpose)
     end
 
     

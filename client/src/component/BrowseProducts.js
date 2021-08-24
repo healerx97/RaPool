@@ -12,6 +12,7 @@ function BrowseProducts({createProduct, user, getRaffles}) {
     const [fundingValue, setFundingValue] = useState("")
     const [selectValue, setSelectValue] = useState("all")
     const [errors, setErrors] = useState(null)
+    const [purposeState, setPurposeState] = useState('')
     let history = useHistory()
 
     function handleFundingValue(e) {
@@ -21,7 +22,9 @@ function BrowseProducts({createProduct, user, getRaffles}) {
         e.preventDefault()
         setSelectValue(e.target.value)
     }
-
+    function handlePurposeChange(e) {
+        setPurposeState(e.target.value)
+    }
 
     async function handleSearch(e) {
         e.preventDefault()
@@ -53,8 +56,8 @@ function BrowseProducts({createProduct, user, getRaffles}) {
         let obj = {
             //assuming user 1 is logged in
             host_id: user.id,
-            remaining_funding: modalProduct.price.current_price - fundingValue
-
+            remaining_funding: modalProduct.price.current_price - fundingValue,
+            purpose: purposeState
         }
         const r = await fetch('/raffles', {
             method: "POST",
@@ -146,22 +149,22 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                                                     <h3 style={{'font-family': 'Nunito', 'font-size': '20%'}}>{modalProduct?modalProduct.title:null}</h3>
                                                 </div>
                                             </div>                                
-                                            <RatingView ratingValue={modalProduct.reviews?modalProduct.reviews.rating:null}/> {` [${modalProduct.reviews?modalProduct.reviews.rating:null}]`}                                        
+                                            <RatingView ratingValue={modalProduct.reviews?modalProduct.reviews.rating:null}/> <p className="align-self-center">{` [${modalProduct.reviews?modalProduct.reviews.rating:null}]`}  </p>
                                             <div class="row price">
                                                 <span>${modalProduct.price?modalProduct.price.current_price:null}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row lower">
+                                    <div class="row lower" style={{'font-family': 'Nunito'}}>
                                         <div className="col"></div>
-                                        <div className="col"></div>
+                                        {/* <div className="col"></div> */}
                                         <div className="col align-self-center">
                                             <div className="form-group row">
                                                 <div className="col align-self-center">
-                                                <label for="categorySelect">Product Category</label>
+                                                <label for="categorySelect">Product Category:</label>
                                                 </div>
-                                                <div className="col">
-                                                <select class="form-select" aria-label="category" id="categorySelect"onChange = {handleSelect} value={selectValue}>
+                                                <div className="col" style={{'marginLeft': '-40%'}}>
+                                                <select class="form-select" aria-label="category" id="categorySelect" onChange = {handleSelect} style={{'font-family': 'Nunito'}} value={selectValue}>
                                                     <option value ="undef">Select product category..</option>
                                                     <option value="home">Home</option>
                                                     <option value="electronics">Electronics</option>
@@ -177,17 +180,21 @@ function BrowseProducts({createProduct, user, getRaffles}) {
 
                                             </div>
                                         <div className="row">
-                                            <div className="col">
+                                            <div className="col align-self-center">
                                                 <label for="initialFunding">Initial Funding:</label>
                                             </div>
-                                            <div class="input-group mb-3 col">
+                                            <div class="input-group mb-3 col align-self-center" style={{'marginTop':'3%', 'marginLeft':'-40%'}}>
                                                 <span class="input-group-text">$</span>
-                                                <input id="initialFunding" onChange={handleFundingValue} value = {fundingValue} type="text" class="form-control" aria-label="Funding Amount" style={{'marginRight':'5%'}}/>
+                                                <input id="initialFunding" onChange={handleFundingValue} value = {fundingValue} type="text" class="form-control" aria-label="Funding Amount" style={{ 'width': '1rem'}}/>
                                             </div>
+                                        </div>
+                                        <div className="row" style={{'height': '100px', 'marginTop':'0.5%'}}>
+                                            <div className="col align-self-top">Purpose:</div>
+                                            <div class="col align-self-top"><textarea value = {purposeState} onChange = {handlePurposeChange} type="text" rows='3' className = "form-control" style={{'marginLeft':'-40%', 'width':'140%'}}/>  </div>
                                         </div>
                                         <div className="row">
                                             <div className="col"/>
-                                            <div class="col align-self-center"> <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={handleCreateRaffle} style={{'fontFamily': 'Nunito'}}>Post</button> </div>
+                                            <div class="col align-self-center" style={{'marginLeft':'70%', 'marginTop': '3%'}}> <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={handleCreateRaffle} style={{'fontFamily': 'Nunito', 'width': '103%'}}>Post</button> </div>
                                         </div>
                                         </div>
                                     </div>
