@@ -34,24 +34,44 @@ class RafflesController < ApplicationController
     def initiate_time
         raffle = Raffle.find(params[:id])
         time = Time.current + 10.seconds
+        if !raffle.end_time
             raffle.update!(end_time: time)
-        
-        raffle.users.each {|user|
-        RaffleChannel.broadcast_to(user, {body: RaffleSerializer.new(raffle)})
-        }
-
-        ActionCable.server.broadcast("updates", { body: "updated raffles"})
+            raffle.users.each {|user|
+            RaffleChannel.broadcast_to(user, {body: RaffleSerializer.new(raffle)})
+            }
+            ActionCable.server.broadcast("updates", { body: "updated raffles"})
+        end
         render json: raffle
     rescue ActiveRecord::RecordInvalid => e
         render json: { error: e.record.errors.full_messages }, status: 422
     end
 
+    def yours
+        user = User.find(session[:user_id])
+        myraffles = user.raffles
+        render json: myraffles.order(:created_at)
+    end
     def destroy
         raffle = Raffle.find(params[:id])
         raffle.destroy
         head :no_content
     end
 
+    def winrate
+        total = UserRaffle.where(raffle_id: params[:id])
+        if total
+            s = total.sum {|b| b.bought_shares}
+            userraffle = UserRaffle.find_by(user_id: session[:user_id], raffle_id: params[:id])
+            if userraffle
+                render json: {total: s, bought_shares: userraffle.bought_shares}
+            else
+                render json: {total: s, bought_shares: 0}
+            end
+        else
+            render json: {total: 0, bought_shares: 0}
+        end
+
+    end
     private
 
     def render_not_found

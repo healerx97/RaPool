@@ -20,5 +20,7 @@ Rails.application.routes.draw do
   patch '/initiatetime/:id', to: "raffles#initiate_time"
   get '/redeem/:id', to: "wins#redeem_win"
 
+  get '/winrate/:id', to: 'raffles#winrate'
+  get '/yours', to: 'raffles#yours'
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end

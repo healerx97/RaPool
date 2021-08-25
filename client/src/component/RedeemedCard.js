@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-
+import {RatingView} from 'react-simple-star-rating'
 function RedeemedCard({raffle, setModalWin}) {
     
     function handleOpen() {
@@ -14,22 +14,28 @@ function RedeemedCard({raffle, setModalWin}) {
     // console.log(remainingTime.sec)
     if (raffle.product) {
     return (
-        <div className = "col">
-            <div className = 'card h-100'>
-                <img style={{'maxHeight': '150px'}} src={`${raffle.product.img_url}`} class="card-img-top" alt="..."/>
-                <div className="card-body">
-                    <h5 className="card-title">{raffle.product.name}</h5>
-                    <p className="card-text">Rating: {raffle.product.details}</p>
-                    <p>Participants:</p>
-                    {raffle.users?renderParticipants:(<p>None</p>)}
-                </div>
-                <div className="card-footer">
-                    <small className="text-muted">Product Price: ${raffle.product.price}</small>
-                    <small className="text-muted">Remaining Funding: ${raffle.remaining_funding}</small>
-                    {/* <button className='btn-sm' onClick={handleOpen} data-bs-toggle="modal" data-bs-target="#win-view">Redeem</button> */}
+        <div >
+            <div className = "col-md-10" onClick={handleOpen} data-bs-toggle="modal" data-bs-target="#win-view" style={{"cursor": "pointer", 'font-family': 'Nunito'}}>
+                <div className = 'card h-100 card-blog'>
+                    <div className = "card-image">
+                        <a href="#">
+                            <img className = "img" style={{'maxHeight': '150px', 'borderRadius': '8px', 'overflow': 'hidden'}} src={`${raffle.product.img_url}`} class="card-img-top" alt="..."/>        
+                            <div className = "card-caption">
+                                
+                            </div>
+                        </a>
+                        <div className = "ripple-cont"></div>
+                    </div>
+                    <div className="table">
+                        <h6 className="category" style={{'font-family':'Nunito', 'font-size': '120%'}}>{raffle.product.name}</h6>
+                        <h2 className="text-muted" style={{'font-family':'Nunito'}}>${raffle.product.price}</h2>
+                        <RatingView ratingValue={raffle.product.details}/>
+                    </div>
+                    <div className="card-footer" style={{'font-family': 'Nunito',  'font-size': 'small'}}>
+                        <h2 className="d-flex align-items-center mb-0 text-muted">{`Hosted by: ${raffle.host.username}`}</h2>
+                    </div>
                 </div>
             </div>
-            
         </div>
 
     )}

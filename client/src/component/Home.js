@@ -3,17 +3,22 @@ import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {RatingView} from 'react-simple-star-rating'
 import RaffleCard from './RaffleCard'
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 toast.configure()
 
 function Home({allRaffles, getRaffles, user, timeLeft}) {
 
     const [modalRaffle, setModalRaffle] = useState({})
-    const [participationValue, setParticipationValue] = useState("")
+    const [participationValue, setParticipationValue] = useState(0)
     const [noLoginError, setNoLoginError] = useState(null)
     const [selectedCategory, setSelectedCategory] = useState('all')
     const [raffleSearchTerm, setRaffleSearchTerm] = useState('')
     const [dfilteredRaffles, setDfilteredRaffles] = useState([])
+    const [fundTotal, setFundTotal] = useState(0)
+    const [bs, setBs] = useState(0)
+    const [winrate, setWinrate] = useState(0)
 
     function handleParticipationValue(e) {
         setParticipationValue(e.target.value)
@@ -104,25 +109,41 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
             })
     )
 
-    // useEffect(() => {
-    //     if (raffleSearchTerm) {
-    //         let dfilteredRaffles = filteredRaffles.filter(raffle=> {
-    //             return (
-    //                 (raffle.product?raffle.product.name:null).includes(raffleSearchTerm)
-    //             )
-    //         })
-    //     } else {
-    //     let dfilteredRaffles = filteredRaffles}
-    // },[filteredRaffles])
-
     const renderParticipants = (
         (modalRaffle.users?
             modalRaffle.users.map((user) => {
                 return(`${user.username}`)
             }) : null)
     )
-    
-    
+    //winrate calculator
+
+    async function getWinRate(id) {
+        const res = await fetch(`/winrate/${id}`)
+        if (res.ok) {
+            const data = await res.json()
+            setFundTotal(parseFloat(data.total))
+            setBs(parseFloat(data.bought_shares))
+        }
+    }
+    useEffect(()=> {
+        getWinRate(modalRaffle.id)
+    },[modalRaffle])
+
+    useEffect(() => {
+        let myshare = parseFloat(bs + parseFloat(participationValue))
+        let mytotal = parseFloat(fundTotal + parseFloat(participationValue))
+        let wr = (myshare/mytotal) * 100
+        // console.log(`myshare: ${myshare}`)
+        // console.log(`fundtotal: ${fundTotal}`)
+        // console.log(`winrate: ${wr}`)
+        if (myshare) {
+        setWinrate(parseInt(wr))
+        } else {
+            setWinrate(parseInt(bs/fundTotal*100))
+        }
+
+    },[fundTotal, participationValue, modalRaffle])
+    console.log(winrate)
     return (
     <div>
         <div className="container mt-4">
@@ -231,10 +252,18 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                                         <div className="col align-self-center" style={{'marginLeft': '1%'}}> <button data-bs-dismiss="modal" onClick={handleParticipate} className="btn btn-light" style={{'fontFamily': 'Nunito', 'textAlign': 'right'}}>Contribute</button> </div>
                                     </div>
                                     <div className="row lowest">
-                                        <div className="col"></div>
-                                        <div className="col"></div>
+                                        <div className="col">
+                                            
+                                        </div>
+                                        <div className="col">
+                                            
+                                        </div>
                                         <div className="col">{`$${modalRaffle?modalRaffle.remaining_funding:null} left to initiate.`}</div>
-                                        <div className="col"></div>
+                                        <div className="col">
+                                            <div style ={{'width': '40%'}}>
+                                                <CircularProgressbar value={winrate} text={`${winrate}%`} />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

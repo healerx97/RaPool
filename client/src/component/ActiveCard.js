@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
-import {Rating, RatingView} from 'react-simple-star-rating'
-
-function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, getRaffles}) {
+import {RatingView} from 'react-simple-star-rating'
+function ActiveCard({raffle, setModalYours, timeLeft, getRaffles}) {
+    //timer
     const left_time = raffle.end_time ? timeLeft(raffle.end_time):null
     const [remainingTime, setRemainingTime] = useState(left_time?{
         hr: left_time.substring(0,2),
@@ -9,16 +9,17 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
         sec: left_time.substring(6,8)
     }:
     {})
-    function handleCreate() {
-        console.log('click')
-        setModalRaffle(raffle)
-        setParticipationValue(raffle.remaining_funding)
+    async function addWin() {
+        const res = await fetch(`/wins/${raffle.id}`)
+        if (res.ok) {
+            const data = await res.json()
+            const r = await fetch(`broadcastwin/${data.id}`)
+            getRaffles()
+        } else {
+            getRaffles()
+        }
     }
-    const renderParticipants = (
-        raffle.users.map((user) => {
-            return(<p className="card-text">{user.username}</p>)
-        })
-    )
+
     useEffect(() => {
         
         if (remainingTime) {
@@ -49,65 +50,53 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
     }, 1000);
     return () => clearInterval(interval);}
     }, [remainingTime]);
+    //timer
 
-    async function addWin() {
-        const res = await fetch(`/wins/${raffle.id}`)
-        if (res.ok) {
-            const data = await res.json()
-            const r = await fetch(`broadcastwin/${data.id}`)
-            getRaffles()
-        } else {
-            getRaffles()
-        }
+
+    function handleOpen() {
+        console.log('click')
+        setModalYours(raffle)
     }
-
-    useEffect(()=>{
-        async function addTime(id) {
-          const res = await fetch(`/initiatetime/${id}`, {
-            method: "PATCH",
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          })
-            // getRaffles()
-            }
-
-                if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
-                  addTime(raffle.id)
-                  console.log('addtime')
-                }
-      
-
-    
-    
-        }
-      ,[raffle])
-    
+    const renderParticipants = (
+        raffle.users.map((user) => {
+            return(<p className="card-text">{user.username}</p>)
+        })
+    )
     let percentage
-  if (raffle.product) {  
-   percentage = (raffle.product.price - raffle.remaining_funding) / raffle.product.price * 100
-  } else {
-       percentage = 0
-  }
-  let numParticipants = Object.keys(raffle.users).length
-  
-  function handleClick() {
-      console.log("clicked")
-  }
-
-
-
+        if (raffle.product) {  
+        percentage = (raffle.product.price - raffle.remaining_funding) / raffle.product.price * 100
+        } else {
+            percentage = 0
+        }
+        let numParticipants = Object.keys(raffle.users).length
     // console.log(remainingTime.sec)
     if (raffle.product) {
     return (
+        // <div className = "col">
+        //     <div className = 'card h-100'>
+        //         <img style={{'maxHeight': '150px'}} src={`${raffle.product.img_url}`} class="card-img-top" alt="..."/>
+        //         <div className="card-body">
+        //             <h5 className="card-title">{raffle.product.name}</h5>
+        //             <p className="card-text">Rating: {raffle.product.details}</p>
+        //             <p>Participants:</p>
+        //             {raffle.users?renderParticipants:(<p>None</p>)}
+        //         </div>
+        //         <div className="card-footer">
+        //             <small className="text-muted">Product Price: ${raffle.product.price}</small>
+        //             <small className="text-muted">Remaining Funding: ${raffle.remaining_funding}</small>
+        //             <button className='btn-sm' onClick={handleOpen} data-bs-toggle="modal" data-bs-target="#win-view">Redeem</button>
+        //         </div>
+        //     </div>
+            
+        // </div>
         <div >
-            <div className = "col-md-10" onClick={handleCreate} data-bs-toggle="modal" data-bs-target="#raffle-view" style={{"cursor": "pointer", 'font-family': 'Lucida Console'}}>
+            <div className = "col-md-10" onClick={handleOpen} data-bs-toggle="modal" data-bs-target="#part-view" style={{"cursor": "pointer", 'font-family': 'Nunito'}}>
                 <div className = 'card h-100 card-blog'>
                     <div className = "card-image">
                         <a href="#">
                             <img className = "img" style={{'maxHeight': '150px', 'borderRadius': '8px', 'overflow': 'hidden'}} src={`${raffle.product.img_url}`} class="card-img-top" alt="..."/>        
                             <div className = "card-caption">
-                                {left_time?`Time Left: ${left_time}`:null}
+                                {!raffle.win && left_time?`Time Left: ${left_time}`:null}
                             </div>
                         </a>
                         <div className = "ripple-cont"></div>
@@ -153,33 +142,9 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                         <h2 className="d-flex align-items-center mb-0 text-muted">{`Hosted by: ${raffle.host.username}`}</h2>
                     </div>
                 </div>
-        
-            
-                    {/* <div class="card l-bg-cherry">
-                        <div class="card-statistic-3 p-4">
-                            <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
-                            <div class="mb-4">
-                                <h5 class="card-title mb-0">Product Funding</h5>
-                            </div>
-                            <div class="row align-items-center mb-2 d-flex">
-                                <div class="col-8">
-                                    <h2 class="d-flex align-items-center mb-0">
-                                        {numParticipants} Participants
-                                    </h2>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <span>{parseInt(percentage)}% <i class="fa fa-arrow-up"></i></span>
-                                </div>
-                            </div>
-                            <div class="progress mt-1 " data-height="8" style={{"height": "8px"}}>
-                                <div class="progress-bar l-bg-green" role="progressbar" data-width="25%" aria-valuemin="0" aria-valuemax="100" style={{"width": `${percentage}%`}}></div>
-                            </div>
-                        </div>
-                    </div> */}
             </div>
-
-        
         </div>
+
     )}
     else {
         return (
@@ -201,4 +166,4 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
     }
 }
 
-export default RaffleCard
+export default ActiveCard

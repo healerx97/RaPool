@@ -14,7 +14,7 @@ import Wins from './Wins';
 import Login from './Login';
 import Signup from './Signup'
 import BrowseProducts from './BrowseProducts';
-
+import Participations from './Participations'
 toast.configure()
 
 function App() {
@@ -146,30 +146,30 @@ function App() {
   return timeString
   }
 
-  useEffect(()=>{
-    async function addTime(id) {
-      const res = await fetch(`/initiatetime/${id}`, {
-        method: "PATCH",
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-        // getRaffles()
-        }
-
-          if (allRaffles) {
-          allRaffles.forEach((raffle)=> {
-            if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
-              addTime(raffle.id)
-            }
+  // useEffect(()=>{
+  //   async function addTime(id) {
+  //     const res = await fetch(`/initiatetime/${id}`, {
+  //       method: "PATCH",
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       }
+  //     })
+  //       // getRaffles()
+  //       }
+  //       console.log('rendering')
+  //         if (allRaffles) {
+  //         allRaffles.forEach((raffle)=> {
+  //           if ((!raffle.end_time) && (parseFloat(raffle.remaining_funding) <= 0)) {
+  //             addTime(raffle.id)
+  //           }
   
-          }
-          )
-        }
+  //         }
+  //         )
+  //       }
 
 
-    }
-  ,[allRaffles])
+  //   }
+  // ,[allRaffles])
 
   
 
@@ -218,6 +218,9 @@ function App() {
         </Route>
         <Route exact path = "/wins">
         {user? <Wins/>: <Redirect to="/login"/>}
+        </Route>
+        <Route exact path = "/participations">
+        {user? <Participations timeLeft={timeLeft} getRaffles={getRaffles} allRaffles={allRaffles}/>: <Redirect to="/login"/>}
         </Route>
         <Route exact path = "/login">
           <Login username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>

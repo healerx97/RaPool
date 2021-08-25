@@ -10,7 +10,7 @@ function NavBar({logOut, user}) {
     }
     return (
         <div class="sidebar-container" style={{'font-family': "Nunito"}}>
-            <div class="sidebar-logo">
+            <div class="sidebar-logo" style={{'border-bottom-color': 'antiquewhite', 'border-bottom': 'solid'}}>
                 RaPool
             </div>
             <ul class="sidebar-navigation">
@@ -29,6 +29,11 @@ function NavBar({logOut, user}) {
                 <li>
                 <Link to="/wins">
                     <i class="fa fa-trophy" aria-hidden="true"></i> Wins
+                </Link>
+                </li>
+                <li>
+                <Link to="/participations">
+                    <i class="fa fa-dice" aria-hidden="true"></i> Participations
                 </Link>
                 </li>
                 <li>

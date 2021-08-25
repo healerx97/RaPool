@@ -117,19 +117,14 @@ function BrowseProducts({createProduct, user, getRaffles}) {
     )
     return (
         <div className="container">
-            <form className="row g-3" onSubmit={handleSearch}>
-                <div className="col-auto">
-                <input className = "form-control" type="text" placeholder="Search" onChange={handleChange}/>
-                </div>
-                <div className="col-auto">
-                    <button type="submit" className="btn btn-primary mb-3">Search</button>
-                </div>
-            </form>
             
-            <div className = "row row-cols-1 row-cols-md-3 g-4">
+            <div className="d-flex justify-content-center px-5">
+                <div className="search"> <form onSubmit={handleSearch}><input type="text" className="search-input" placeholder="Search active raffles..." value = {searchTerm} onChange={handleChange}/> <button className="search-icon"> <i className="fa fa-search"></i> </button> </form></div>
+            </div>
+            <div className = "row row-cols-1 row-cols-md-3 g-4" style={{'marginTop': '5%'}}>
                 {renderProducts ? renderProducts:null}
             </div>
-
+            
             <div className="modal fade" id="product-raffle-view" tabindex="-1" aria-labelledby="Modal" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-scrollable modal-xl" >
                         <div className="modal-content" style={{'background-color': 'rgb(243, 241, 234)'}}>
