@@ -8,7 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 
 toast.configure()
 
-function Home({allRaffles, getRaffles, user, timeLeft}) {
+function Home({allRaffles, getRaffles, user, timeLeft, hostedDisplay}) {
 
     const [modalRaffle, setModalRaffle] = useState({})
     const [participationValue, setParticipationValue] = useState(0)
@@ -105,7 +105,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
     
     const renderRaffles = (
             dfilteredRaffles.map(raffle => {                
-                return (<RaffleCard key={raffle.id} user={user} getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
+                return (<RaffleCard key={raffle.id} hostedDisplay={hostedDisplay} user={user} getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
             })
     )
 
@@ -211,7 +211,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
             </div>
         </div>  
         <div className="container">
-            <div className = "row row-cols-1 row-cols-md-3 g-4">
+            <div className = "row row-cols-1 row-cols-md-3 g-4" style={{'marginBottom': '5%'}}>
                 {allRaffles?renderRaffles:null}
             </div>
             {/* raffle modal */}
@@ -258,7 +258,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                                         <div className="col">
                                             
                                         </div>
-                                        <div className="col">{`$${modalRaffle?modalRaffle.remaining_funding:null} left to initiate.`}</div>
+                                        <div className="col">{modalRaffle.remaining_funding>0?`$${modalRaffle.remaining_funding} left to initiate.`:null}</div>
                                         <div className="col align-self-center">
                                             Winrate:
                                             <div style ={{'width': '40%'}}>

@@ -25,6 +25,7 @@ function App() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState([])
+  const [hostedDisplay, setHostedDisplay] = useState(false)
   let history = useHistory()
 
   useEffect(() => {
@@ -125,7 +126,9 @@ function App() {
     }
   },[user])
 
-
+  function onHost() {
+    setHostedDisplay(!hostedDisplay)
+  }
 
 
   // TIME LEFT for Raffle Countdown
@@ -220,7 +223,7 @@ function App() {
         {user? <Wins/>: <Redirect to="/login"/>}
         </Route>
         <Route exact path = "/participations">
-        {user? <Participations timeLeft={timeLeft} getRaffles={getRaffles} allRaffles={allRaffles}/>: <Redirect to="/login"/>}
+        {user? <Participations hostedDisplay={hostedDisplay} timeLeft={timeLeft} getRaffles={getRaffles} allRaffles={allRaffles} user={user} />: <Redirect to="/login"/>}
         </Route>
         <Route exact path = "/login">
           <Login username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
@@ -229,9 +232,19 @@ function App() {
           <Signup username={username} email={email} password={password} errors={errors} setUsername={setUsername} setEmail={setEmail} setPassword={setPassword} setErrors={setErrors} onLogin={setUser}/>
         </Route> 
         <Route exact path = "/">
-        {user? <Home allRaffles={allRaffles} getRaffles={getRaffles} user={user} timeLeft={timeLeft}/>: <Redirect to="/login"/>}
+        {user? <Home hostedDisplay={hostedDisplay} allRaffles={allRaffles} getRaffles={getRaffles} user={user} timeLeft={timeLeft}/>: <Redirect to="/login"/>}
         </Route>
       </Switch>
+      <footer class="footer py-2 bg-light fixed-bottom">
+        <div class="row">
+          <div class="col self-align-center" style={{'textAlign': 'left', 'font-family':'Nunito', "marginLeft": '3%', 'marginTop': '4px'}}>
+              <span class="text-muted">RaPool LLC by Kenny Yoon</span>
+          </div>
+          <div class='col' style={{'textAlign': 'right', 'font-family':'Nunito'}}>
+            {user?<button class="search-icon" onClick={onHost} style={{'bottom': '0px', 'width': '10%', 'marginRight': '5%', 'font-size': '100%'}}>Hosted</button>:null}
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

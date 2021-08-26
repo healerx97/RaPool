@@ -14,23 +14,23 @@ Raffle.destroy_all
 Raffle.reset_pk_sequence
 
 
-10.times do
-    User.create(username: Faker::Internet.username, email: Faker::Internet.email, password: "asdf")
-end
+# 10.times do
+#     User.create(username: Faker::Internet.username, email: Faker::Internet.email, password: "asdf")
+# end
 
-20.times do
-    Raffle.create(host_id: rand(1..10), remaining_funding: rand(0..100), purpose: "yolo")
-end
+# 20.times do
+#     Raffle.create(host_id: rand(1..10), remaining_funding: rand(0..100), purpose: "yolo")
+# end
 
-Raffle.all.each do |r|
-    Product.create(raffle_id: r.id, name: Faker::Internet.username, price: r.remaining_funding, img_url: "https://picsum.photos/200/300", details: rand(0..5), category: "electronics")
-end
-puts "creating user data"
+# Raffle.all.each do |r|
+#     Product.create(raffle_id: r.id, name: Faker::Internet.username, price: r.remaining_funding, img_url: "https://picsum.photos/200/300", details: rand(0..5), category: "electronics")
+# end
+# puts "creating user data"
 
-User.all.each do |u|
-    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
-    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
-    UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
-end
+# User.all.each do |u|
+#     UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
+#     UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
+#     UserRaffle.create(user_id: u.id, raffle_id: rand(1..20), bought_shares: rand(1..20))
+# end
 
 puts "done"

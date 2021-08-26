@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import {RatingView} from 'react-simple-star-rating'
-function ActiveCard({raffle, setModalYours, timeLeft, getRaffles}) {
+function ActiveCard({raffle, setModalYours, timeLeft, getRaffles, hostedDisplay, user}) {
     //timer
     const left_time = raffle.end_time ? timeLeft(raffle.end_time):null
     const [remainingTime, setRemainingTime] = useState(left_time?{
@@ -70,6 +70,10 @@ function ActiveCard({raffle, setModalYours, timeLeft, getRaffles}) {
         }
         let numParticipants = Object.keys(raffle.users).length
     // console.log(remainingTime.sec)
+
+    const hostStyle = {
+        'background-color': '#faf1bf'
+      }
     if (raffle.product) {
     return (
         // <div className = "col">
@@ -91,7 +95,7 @@ function ActiveCard({raffle, setModalYours, timeLeft, getRaffles}) {
         // </div>
         <div >
             <div className = "col-md-10" onClick={handleOpen} data-bs-toggle="modal" data-bs-target="#part-view" style={{"cursor": "pointer", 'font-family': 'Nunito'}}>
-                <div className = 'card h-100 card-blog'>
+                <div className = 'card h-100 card-blog' style = {hostedDisplay && (raffle.host_id == user.id)?hostStyle:null}>
                     <div className = "card-image">
                         <a href="#">
                             <img className = "img" style={{'maxHeight': '150px', 'borderRadius': '8px', 'overflow': 'hidden'}} src={`${raffle.product.img_url}`} class="card-img-top" alt="..."/>        

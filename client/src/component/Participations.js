@@ -7,7 +7,7 @@ import ActiveCard from './ActiveCard'
 import RedeemedCard from './RedeemedCard'
 toast.configure()
 
-function Participations({getRaffles, user, timeLeft, allRaffles}) {
+function Participations({getRaffles, user, timeLeft, allRaffles, hostedDisplay}) {
     const [modalYours, setModalYours] = useState({})
     const [activeRaffles, setActiveRaffles] = useState([])
     const [yourRaffles, setYourRaffles] = useState([])
@@ -38,12 +38,12 @@ function Participations({getRaffles, user, timeLeft, allRaffles}) {
 
      const renderYourRaffles = (
             yourRaffles.map(raffle => {
-                return (<YourCard timeLeft={timeLeft} raffle={raffle} setModalYours={setModalYours} getRaffles={getRaffles} />)
+                return (<YourCard user={user} hostedDisplay={hostedDisplay} timeLeft={timeLeft} raffle={raffle} setModalYours={setModalYours} getRaffles={getRaffles} />)
             })
     )
     const renderActiveRaffles = (
         activeRaffles.map(raffle => {
-            return (<ActiveCard timeLeft={timeLeft} raffle={raffle} setModalYours={setModalYours} getRaffles={getRaffles} />)
+            return (<ActiveCard user={user} hostedDisplay={hostedDisplay} timeLeft={timeLeft} raffle={raffle} setModalYours={setModalYours} getRaffles={getRaffles} />)
         })
 )
     // const renderHostedRaffles = (

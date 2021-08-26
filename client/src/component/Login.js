@@ -30,6 +30,8 @@ function Login({username, email, password, errors, setUsername, setEmail, setPas
         const data = await res.json()
         if (res.ok) {
           onLogin(data)
+          setPassword('')
+          setErrors([])
           history.push("/")
         } else {
             console.log(data)
@@ -43,7 +45,7 @@ function Login({username, email, password, errors, setUsername, setEmail, setPas
                     <div className="row justify-content-center align-items-center h-100">
                         <div className="col-12 col-lg-9 col-xl-7">
                             <div className="card shadow-2-strong card-registration" style={{borderRadius: "15px"}}>
-                                <div className="card-body p-4 p-md-5" style={{marginBottom: '50px'}}>
+                                <div className="card-body p-4 p-md-5" style={{marginBottom: '50px', 'font-family': 'Nunito'}}>
                                     <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">RaPool Login</h3>
                                     <form onSubmit={handleLogin}>
                                         <div className="row ">

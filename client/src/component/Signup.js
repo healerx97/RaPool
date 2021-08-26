@@ -25,6 +25,8 @@ function Signup({username, email, password, errors, setUsername, setEmail, setPa
         const data = await res.json()
         if (res.ok) {
             onLogin(data)
+            setErrors([])
+            setPassword('')
             history.push("/")
         } else {
             setErrors(data.errors)

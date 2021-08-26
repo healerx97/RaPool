@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Rating, RatingView} from 'react-simple-star-rating'
 
-function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, getRaffles, user}) {
+function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, getRaffles, user, hostedDisplay}) {
     const left_time = raffle.end_time ? timeLeft(raffle.end_time):null
     const [remainingTime, setRemainingTime] = useState(left_time?{
         hr: left_time.substring(0,2),
@@ -12,7 +12,12 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
     function handleCreate() {
         console.log('click')
         setModalRaffle(raffle)
+        if (raffle.remaining_funding > 0) {
         setParticipationValue(raffle.remaining_funding)
+        }
+        else {
+            setParticipationValue(0)
+        }
     }
     const renderParticipants = (
         raffle.users.map((user) => {
@@ -104,7 +109,7 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
     return (
         <div >
             <div className = "col-md-10" onClick={handleCreate} data-bs-toggle="modal" data-bs-target="#raffle-view" style={{"cursor": "pointer", 'font-family': 'Lucida Console'}}>
-                <div className = 'card h-100 card-blog' style = {(raffle.host_id == user.id)?hostStyle:null}>
+                <div className = 'card h-100 card-blog' style = {hostedDisplay && (raffle.host_id == user.id)?hostStyle:null}>
                     <div className = "card-image">
                         <a href="#">
                             <img className = "img" style={{'maxHeight': '150px', 'borderRadius': '8px', 'overflow': 'hidden'}} src={`${raffle.product.img_url}`} class="card-img-top" alt="..."/>        
