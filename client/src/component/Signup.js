@@ -36,16 +36,16 @@ function Signup({username, email, password, errors, setUsername, setEmail, setPa
                 <div className="container py-5 h-100">
                     <div className="row justify-content-center align-items-center h-100">
                     <div className="col-12 col-lg-9 col-xl-7">
-                        <div className="card shadow-2-strong card-registration" style={{borderRadius: "15px"}}>
+                        <div className="card shadow-2-strong card-registration" style={{borderRadius: "15px", 'font-family':'Nunito'}}>
                         <div className="card-body p-4 p-md-5">
-                            <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">BeatMatch Signup</h3>
+                            <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">Create your account</h3>
                             <form onSubmit={handleSignup}>
                                 <div className="col-md-6 login mb-4">
     
     
                                 </div>
-                            <div className="row">
-                                <div className="col-md-6 mb-4">
+                            <div className="row" style={{'width':"70%", 'marginLeft': '15%'}}>
+                                <div className="row-md-6 mb-4">
     
                                 <div className="form-outline">
                                     <input required type="text" id="username" className="form-control form-control-lg" value={username} onChange={e => setUsername(e.target.value)}/>
@@ -54,7 +54,7 @@ function Signup({username, email, password, errors, setUsername, setEmail, setPa
     
                                 </div>
 
-                                <div className="col-md-6 mb-4">
+                                <div className="row-md-6 mb-4">
     
                                 <div className="form-outline">
                                     <input required type="text" id="email" className="form-control form-control-lg" value={email} onChange={e => setEmail(e.target.value)}/>
@@ -63,7 +63,7 @@ function Signup({username, email, password, errors, setUsername, setEmail, setPa
     
                                 </div>
 
-                                <div className="col-md-6 mb-4 pb-2">
+                                <div className="row-md-6 mb-4 pb-2">
     
                                 <div className="form-outline">
                                     <input required type="password" id="password" className="form-control form-control-lg" value={password} onChange={e => setPassword(e.target.value)}/>
@@ -81,7 +81,7 @@ function Signup({username, email, password, errors, setUsername, setEmail, setPa
                                 : null} 
                             </div>
                             <div className="mt-6 pt-2">
-                                <input className="btn btn-primary btn-lg" type="submit" value="Submit" />
+                                <input className="btn btn-lg" type="submit" value="Start Poolin'" style={{'background-color': 'rgb(21, 15, 58)', 'color':'white'}} />
                                 <br/>
                                 <br/>
                                 <a className="link"  onClick={handleClick}>Back to Login Form</a>

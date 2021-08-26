@@ -117,7 +117,6 @@ function BrowseProducts({createProduct, user, getRaffles}) {
     )
     return (
         <div className="container">
-            
             <div className="d-flex justify-content-center px-5">
                 <div className="search"> <form onSubmit={handleSearch}><input type="text" className="search-input" placeholder="Search active raffles..." value = {searchTerm} onChange={handleChange}/> <button className="search-icon"> <i className="fa fa-search"></i> </button> </form></div>
             </div>
@@ -199,43 +198,6 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                         </div>
                     </div>
             </div>
-
-            {/* <div className="modal fade" id="product-raffle-view" tabindex="-1" aria-labelledby="Modal" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-scrollable modal-xl">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">{modalProduct.title}</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="container-fluid">
-                                    <div className="row">
-                                        <div className='col-md-4'>
-                                        <img style={{'width': '25%'}} src={`${modalProduct.thumbnail}`} class="card-img-top" alt="..."/>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className='col-md-3 ms-auto'>
-                                            ${modalProduct.price ? modalProduct.price.current_price: 0}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className='col-md-3 ms-auto'>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">$</span>
-                                            <input onChange={handleFundingValue} value = {fundingValue} type="text" class="form-control" aria-label="Funding Amount"/>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleCreateRaffle}>Create Raffle</button>
-                            </div>
-                        </div>
-                    </div>
-            </div> */}
         </div>
     )
 }

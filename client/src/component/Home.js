@@ -259,7 +259,8 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
                                             
                                         </div>
                                         <div className="col">{`$${modalRaffle?modalRaffle.remaining_funding:null} left to initiate.`}</div>
-                                        <div className="col">
+                                        <div className="col align-self-center">
+                                            Winrate:
                                             <div style ={{'width': '40%'}}>
                                                 <CircularProgressbar value={winrate} text={`${winrate}%`} />
                                             </div>

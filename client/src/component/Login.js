@@ -47,7 +47,7 @@ function Login({username, email, password, errors, setUsername, setEmail, setPas
                                     <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">RaPool Login</h3>
                                     <form onSubmit={handleLogin}>
                                         <div className="row ">
-                                            <div className="col-md-6 login mb-6" >
+                                            <div className="col-md-6 login mb-6" style={{'marginLeft': "25%"}} >
     
                                                 <div className="form-outline">
                                                     <input type="text" id="username" className="form-control form-control-lg" value={username} onChange={e => setUsername(e.target.value)}/>
@@ -67,7 +67,7 @@ function Login({username, email, password, errors, setUsername, setEmail, setPas
     
                                             </div>
                                             <div className="mt-6 pt-2">
-                                                <input className="btn btn-primary btn-lg" type="submit" value="Submit" /> 
+                                            <input className="btn btn-lg" type="submit" value="Start Poolin'" style={{'background-color': 'rgb(21, 15, 58)', 'color':'white'}} />
                                                 <br/>
                                                 <br/>
                                                 <a  className="link"  onClick={handleClick}>New to RaPool? Create Your Profile!</a>

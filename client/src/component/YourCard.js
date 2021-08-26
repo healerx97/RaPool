@@ -62,6 +62,8 @@ function YourCard({raffle, setModalYours, timeLeft, getRaffles}) {
             return(<p className="card-text">{user.username}</p>)
         })
     )
+    let numParticipants = Object.keys(raffle.users).length
+
     // console.log(remainingTime.sec)
     if (raffle.product) {
     return (
@@ -97,10 +99,13 @@ function YourCard({raffle, setModalYours, timeLeft, getRaffles}) {
                     <div className="table">
                         <h6 className="category" style={{'font-family':'Nunito', 'font-size': '120%'}}>{raffle.product.name}</h6>
                         <h2 className="text-muted" style={{'font-family':'Nunito'}}>${raffle.product.price}</h2>
+                        <h6 className="text-muted" style={{'font-family':'Nunito'}}>{raffle.purpose}</h6>
                         <RatingView ratingValue={raffle.product.details}/>
+                        <h2 class=" align-items-center mb-0" style={{'font-family':'Nunito'}}>{numParticipants} Participants</h2>
                     </div>
                     <div className="card-footer" style={{'font-family': 'Nunito',  'font-size': 'small'}}>
                         <h2 className="d-flex align-items-center mb-0 text-muted">{`Hosted by: ${raffle.host.username}`}</h2>
+                        <h2 className="d-flex align-items-center mb-0">{`Winner: ${raffle.win.winner.username}`}</h2>
                     </div>
                 </div>
             </div>

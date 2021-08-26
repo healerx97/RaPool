@@ -652,3 +652,9 @@ a:link {
 .mg-text {
   line-height: 14px
 }
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

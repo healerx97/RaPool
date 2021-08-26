@@ -23,7 +23,7 @@ end
 end
 
 Raffle.all.each do |r|
-    Product.create(raffle_id: r.id, name: Faker::Internet.username, price: rand(20..100), img_url: "https://picsum.photos/200/300", details: rand(0..5), category: "electronics")
+    Product.create(raffle_id: r.id, name: Faker::Internet.username, price: r.remaining_funding, img_url: "https://picsum.photos/200/300", details: rand(0..5), category: "electronics")
 end
 puts "creating user data"
 

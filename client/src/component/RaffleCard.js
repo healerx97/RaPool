@@ -122,7 +122,7 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                             <div class="card-statistic-3 p-2">
                                 <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
                                 <div class="mb-4">
-                                    <h5 class="card-title mb-0" style={{'font-family':'Nunito'}}>Product Funding</h5>
+                                    <h5 class="card-title mb-0" style={{'font-family':'Nunito',  'font-size': '90%'}}>Product Funding</h5>
                                 </div>
                                 <div class="row align-items-center mb-2 d-flex">
                                     <div class="col-8" style={{'font-family':'Nunito', 'font-size': '80%'}}>

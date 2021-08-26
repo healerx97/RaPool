@@ -49,6 +49,9 @@ function Participations({getRaffles, user, timeLeft, allRaffles}) {
                 return(`${user.username}`)
             }) : null)
     )
+
+    
+
     return (
         <div>
             <div className="container">
@@ -110,6 +113,9 @@ function Participations({getRaffles, user, timeLeft, allRaffles}) {
                                             <p>{modalYours.purpose}</p> <RatingView ratingValue={modalYours.product?modalYours.product.details:null}/> {` [${modalYours.product?modalYours.product.details:null}]`}
                                             <div className="row price" style={{'marginTop': '3%'}}>
                                                 <span>${modalYours.product?modalYours.product.price:null}</span>
+                                            </div>
+                                            <div className="row donations" style={{'marginTop': '3%'}}>
+                                                <span>Donated ${modalYours.product && (modalYours.remaining_funding <= 0)?(- modalYours.remaining_funding):null}</span>
                                             </div>
                                         </div>
                                     </div>

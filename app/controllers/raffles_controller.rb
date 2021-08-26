@@ -2,7 +2,7 @@ class RafflesController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
     skip_before_action :authorize, only: [:index]
     def index
-        raffles = Raffle.order(:end_time, remaining_funding: :desc)
+        raffles = Raffle.order(:end_time, remaining_funding: :asc)
         result = raffles.select {|raffle|
         !raffle.win
     }
