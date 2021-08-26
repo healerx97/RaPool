@@ -11,12 +11,16 @@ function Participations({getRaffles, user, timeLeft, allRaffles}) {
     const [modalYours, setModalYours] = useState({})
     const [activeRaffles, setActiveRaffles] = useState([])
     const [yourRaffles, setYourRaffles] = useState([])
+    const [hostedRaffles, setHostedRaffles] = useState([])
     async function getYourRaffles(){
         const res = await fetch('/yours')
         if (res.ok) {
             const data = await res.json()
             setYourRaffles(data.filter(raffle=> !!raffle.win))
             setActiveRaffles(data.filter(raffle=> !raffle.win))
+            if (user) {
+            setHostedRaffles(data.filter(raffle=> raffle.host.id == user.id))
+            }
         }
     }
     useEffect(()=>{
@@ -42,6 +46,11 @@ function Participations({getRaffles, user, timeLeft, allRaffles}) {
             return (<ActiveCard timeLeft={timeLeft} raffle={raffle} setModalYours={setModalYours} getRaffles={getRaffles} />)
         })
 )
+    // const renderHostedRaffles = (
+    //     activeRaffles.map(raffle => {
+    //         return (<ActiveCard timeLeft={timeLeft} raffle={raffle} setModalYours={setModalYours} getRaffles={getRaffles} />)
+    //     })
+    // )
 
     const renderParticipants = (
         (modalYours.users?
@@ -115,7 +124,7 @@ function Participations({getRaffles, user, timeLeft, allRaffles}) {
                                                 <span>${modalYours.product?modalYours.product.price:null}</span>
                                             </div>
                                             <div className="row donations" style={{'marginTop': '3%'}}>
-                                                <span>Donated ${modalYours.product && (modalYours.remaining_funding <= 0)?(- modalYours.remaining_funding):null}</span>
+                                                <span>{modalYours.product && (modalYours.remaining_funding <= 0)?`Donated $${(- modalYours.remaining_funding)}`:null}</span>
                                             </div>
                                         </div>
                                     </div>

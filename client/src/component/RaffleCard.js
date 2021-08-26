@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Rating, RatingView} from 'react-simple-star-rating'
 
-function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, getRaffles}) {
+function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, getRaffles, user}) {
     const left_time = raffle.end_time ? timeLeft(raffle.end_time):null
     const [remainingTime, setRemainingTime] = useState(left_time?{
         hr: left_time.substring(0,2),
@@ -84,10 +84,10 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
       ,[raffle])
     
     let percentage
-  if (raffle.product) {  
+  if (raffle.product && (raffle.remaining_funding > 0)) {  
    percentage = (raffle.product.price - raffle.remaining_funding) / raffle.product.price * 100
-  } else {
-       percentage = 0
+  } else if (raffle.product){
+       percentage = (-raffle.remaining_funding) / raffle.product.price *100
   }
   let numParticipants = Object.keys(raffle.users).length
   
@@ -95,14 +95,16 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
       console.log("clicked")
   }
 
-
-
+  const hostStyle = {
+    'background-color': '#faf1bf'
+  }
+//   console.log(user)
     // console.log(remainingTime.sec)
     if (raffle.product) {
     return (
         <div >
             <div className = "col-md-10" onClick={handleCreate} data-bs-toggle="modal" data-bs-target="#raffle-view" style={{"cursor": "pointer", 'font-family': 'Lucida Console'}}>
-                <div className = 'card h-100 card-blog'>
+                <div className = 'card h-100 card-blog' style = {(raffle.host_id == user.id)?hostStyle:null}>
                     <div className = "card-image">
                         <a href="#">
                             <img className = "img" style={{'maxHeight': '150px', 'borderRadius': '8px', 'overflow': 'hidden'}} src={`${raffle.product.img_url}`} class="card-img-top" alt="..."/>        
@@ -118,9 +120,10 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                         <RatingView ratingValue={raffle.product.details}/>
                     </div>
                     <div className="card-body" style={{'marginBottom': "-10%", "marginTop": "-10%"}}>
-                        <div class="card l-bg-cherry">
+                        {raffle.remaining_funding > 0?
+                        (<div class="card l-bg-cherry">
                             <div class="card-statistic-3 p-2">
-                                <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                                <div class="card-icon card-icon-large"><i class={`fas fa-users`}></i></div>
                                 <div class="mb-4">
                                     <h5 class="card-title mb-0" style={{'font-family':'Nunito',  'font-size': '90%'}}>Product Funding</h5>
                                 </div>
@@ -146,7 +149,32 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                                     </div>
                                 </div>
                             </div>
+                        </div>):
+                        (<div class="card l-bg-cherry">
+                        <div class="card-statistic-3 p-2">
+                            <div class="card-icon card-icon-large"><i class="fas fa-hand-holding-usd"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0" style={{'font-family':'Nunito',  'font-size': '90%'}}>Donations</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-4" style={{'font-family':'Nunito',  'font-size': '80%', 'marginLeft': '33%'}}>
+                                    <span>${parseInt(- raffle.remaining_funding)}</span>
+                                </div>
+                                                    
+                            </div>
+                            <div class="progress mt-1 " data-height="8" style={{"height": "12px", "marginBottom": "10px"}}>
+                                <div class="progress-bar l-bg-orange" role="progressbar" data-width="25%" aria-valuemin="0" aria-valuemax="100" style={{'color':'black', "width": `${percentage}%`}}>{parseInt(percentage)}%</div>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-8">
+                                    <h2 class="d-flex align-items-center mb-0" style={{'font-family':'Nunito'}}>
+                                        {numParticipants} Participants
+                                    </h2>
+                                </div>
+                            </div>
                         </div>
+                    </div>)}
+
                                 
                     </div>
                     <div className="card-footer" style={{'font-family': 'Nunito',  'font-size': 'small'}}>

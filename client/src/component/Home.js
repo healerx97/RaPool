@@ -105,7 +105,7 @@ function Home({allRaffles, getRaffles, user, timeLeft}) {
     
     const renderRaffles = (
             dfilteredRaffles.map(raffle => {                
-                return (<RaffleCard key={raffle.id} getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
+                return (<RaffleCard key={raffle.id} user={user} getRaffles={getRaffles} raffle={raffle} setModalRaffle={setModalRaffle} setParticipationValue={setParticipationValue} timeLeft={timeLeft}/>)
             })
     )
 
