@@ -33,7 +33,7 @@ class RafflesController < ApplicationController
 
     def initiate_time
         raffle = Raffle.find(params[:id])
-        time = Time.current + 10.seconds
+        time = Time.current + 24.seconds
         if !raffle.end_time
             raffle.update!(end_time: time)
             raffle.users.each {|user|
