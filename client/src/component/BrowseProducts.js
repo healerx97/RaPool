@@ -39,7 +39,6 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                 }
             })
             if (res.ok) {
-                console.log("finally")
                 const data = await res.json()
                 console.log(data.products)
                 setSearchResults(data.products)
