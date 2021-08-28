@@ -33,8 +33,11 @@ function BrowseProducts({createProduct, user, getRaffles}) {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-key": process.env.REACT_APP_AMAZON_API_KEY,
-                    "x-rapidapi-host": "amazon-product-reviews-keywords.p.rapidapi.com"
-                }
+                    "x-rapidapi-host": "amazon-product-reviews-keywords.p.rapidapi.com",
+                    'X-Requested-With': 'XMLHttpRequest'
+
+                },
+                'credentials': 'include'
             })
             if (res.ok) {
                 console.log("finally")
