@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  mount ActionCable.server => "/cable"
+  mount ActionCable.server => "wss://action-cable-example.herokuapp.com/cable"
 
   resources :wins
   resources :products
