@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: redis:/redistogo:46280c484fbcbd610cb3581030ba600d@sole.redistogo.com:9409/
-  channel_prefix: phase_4_project_guidelines_production
+  url: redis://redistogo:46280c484fbcbd610cb3581030ba600d@sole.redistogo.com:9409/
+  # channel_prefix: phase_4_project_guidelines_production
