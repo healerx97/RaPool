@@ -183,7 +183,7 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                                 
                     </div>
                     <div className="card-footer" style={{'font-family': 'Nunito',  'font-size': 'small'}}>
-                        <h2 className="d-flex align-items-center mb-0 text-muted">{`Hosted by: ${raffle.host.username}`}</h2>
+                        <span className="d-flex align-items-center mb-0 text-muted">{`Hosted by: ${raffle.host.username}`}</span>
                     </div>
                 </div>
         
