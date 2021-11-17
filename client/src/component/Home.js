@@ -210,7 +210,7 @@ function Home({allRaffles, getRaffles, user, timeLeft, hostedDisplay}) {
                 </div>
             </div>
         </div>  
-        <div className="container">
+        <div className="container w-75">
             <div className = "row row-cols-1 row-cols-md-1 lg:row-cols-md-3 g-4" style={{'marginBottom': '5%'}}>
                 {allRaffles?renderRaffles:null}
             </div>
