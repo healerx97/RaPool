@@ -179,7 +179,7 @@ body {
 }
 
 .card .ftr .author {
-  color: #888;
+  color: rgb(238, 237, 177);
 }
 
 .card .ftr .stats {
@@ -231,7 +231,7 @@ body {
 }
 
 .card .table-warning {
-  background: linear-gradient(60deg, #ffa726, #f57c00);
+  background: linear-gradient(60deg, #faf1bf, #f57c00);
 }
 
 .card .table-danger {
@@ -445,7 +445,7 @@ label.radio input:checked+span {
 }
 
 .btn:hover {
-  color: rgb(0, 0, 0)
+  color: rgb(21, 15, 58)
 }
 
 @media(max-width:768px) {

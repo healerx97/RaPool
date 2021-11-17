@@ -121,7 +121,7 @@ function BrowseProducts({createProduct, user, getRaffles}) {
             <div className="d-flex justify-content-center px-5">
                 <div className="search"> <form onSubmit={handleSearch}><input type="text" className="search-input" placeholder="Search active raffles..." value = {searchTerm} onChange={handleChange}/> <button className="search-icon"> <i className="fa fa-search"></i> </button> </form></div>
             </div>
-            <div className = "row row-cols-1 row-cols-md-3 g-4" style={{'marginTop': '5%'}}>
+            <div className = "row row-cols-1 row-cols-md-1 lg:row-cols-md-3 g-4" style={{'marginTop': '5%'}}>
                 {renderProducts ? renderProducts:null}
             </div>
             
