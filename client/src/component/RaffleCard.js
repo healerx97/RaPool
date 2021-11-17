@@ -172,9 +172,9 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
                             </div>
                             <div class="row align-items-center mb-2 d-flex">
                                 <div class="col-8">
-                                    <h2 class="d-flex align-items-center mb-0" style={{'font-family':'Nunito'}}>
+                                    <span class="d-flex align-items-center mb-0" style={{'font-family':'Nunito'}}>
                                         {numParticipants} Participants
-                                    </h2>
+                                    </span>
                                 </div>
                             </div>
                         </div>
