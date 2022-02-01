@@ -24,6 +24,9 @@ function RaffleCard({raffle, setParticipationValue, setModalRaffle, timeLeft, ge
             return(<p className="card-text">{user.username}</p>)
         })
     )
+
+    //run timer according to remainingTime
+    //run addWin() function once remainingTime is less than 0
     useEffect(() => {
         
         if (remainingTime) {

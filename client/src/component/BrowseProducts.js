@@ -25,7 +25,8 @@ function BrowseProducts({createProduct, user, getRaffles}) {
     function handlePurposeChange(e) {
         setPurposeState(e.target.value)
     }
-
+    //connect to Amazon Product API
+    //needs rapidapi subscription to operate
     async function handleSearch(e) {
         e.preventDefault()
         if (searchTerm) {
